@@ -16,14 +16,23 @@ foo@bar:~/../Twitter-Topic-Tracking$ yarn
 
 ### Backend related
 * create virtual environment
+Unix-bas
 ```bash
 foo@bar:~/../Twitter-Topic-Tracking$ cd api
 foo@bar:~/../Twitter-Topic-Tracking/api$ python3 -m venv venv
+foo@bar:~/../Twitter-Topic-Tracking/api$ source venv/bin/activate
+(venv) $ _
+```
+Windows
+```bat
+foo@bar:~/../Twitter-Topic-Tracking$ cd api
+foo@bar:~/../Twitter-Topic-Tracking/api$ python -m venv venv
+foo@bar:~/../Twitter-Topic-Tracking/api$ venv\Scripts\activate
+(venv) $ _
 ```
 
 * install missing modules
 ```bash
-foo@bar:~/../Twitter-Topic-Tracking/api$ source venv/bin/activate
 (venv) foo@bar:~/../Twitter-Topic-Tracking/api$ pip install flask python-dotenv
 ```
 
