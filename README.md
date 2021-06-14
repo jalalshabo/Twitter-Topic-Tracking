@@ -1,3 +1,45 @@
+# Getting started with a fresh clone
+
+After cloning, you need to install a few requirements
+make sure you have the following installed
+
+* Node.js : The JavaScript runtime 
+* Yarn: A package and project manager for Node.js applications
+* Python: A recent Python 3 interpreter to run Flask backend
+
+## Installing missing requirements
+### Frontend related
+* install missing packages
+```bash
+foo@bar:~/../Twitter-Topic-Tracking$ yarn
+```
+
+### Backend related
+* create virtual environment
+```bash
+foo@bar:~/../Twitter-Topic-Tracking$ cd api
+foo@bar:~/../Twitter-Topic-Tracking/api$ python3 -m venv venv
+```
+
+* install missing modules
+```bash
+foo@bar:~/../Twitter-Topic-Tracking/api$ source venv/bin/activate
+(venv) foo@bar:~/../Twitter-Topic-Tracking/api$ pip install flask python-dotenv
+```
+
+### How to run
+You will need to open 2 terminal windows
+
+
+* start flask backend terminal window
+(venv) foo@bar:~/../Twitter-Topic-Tracking/api$ cd ..
+(venv) foo@bar:~/../Twitter-Topic-Tracking/$ yarn start-api
+
+* start react frontend
+(venv) foo@bar:~/../Twitter-Topic-Tracking/$ yarn start
+
+The _yarn start_ and _yarn start-api_ commands are described below
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
