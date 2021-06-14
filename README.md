@@ -32,12 +32,15 @@ You will need to open 2 terminal windows
 
 
 * start flask backend terminal window
+```bash
 (venv) foo@bar:~/../Twitter-Topic-Tracking/api$ cd ..
 (venv) foo@bar:~/../Twitter-Topic-Tracking/$ yarn start-api
+```
 
 * start react frontend
+```bash
 (venv) foo@bar:~/../Twitter-Topic-Tracking/$ yarn start
-
+```
 The _yarn start_ and _yarn start-api_ commands are described below
 
 # Getting Started with Create React App
