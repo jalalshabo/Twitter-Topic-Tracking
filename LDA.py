@@ -23,6 +23,7 @@ from gensim.models import CoherenceModel
 
 
 # load json file into empty list as list of stings function
+# send file location, and empty list to load json into 
 def load_json(location, empty_list):
     with open(location) as file:
         empty_list = json.load(file)
@@ -30,7 +31,7 @@ def load_json(location, empty_list):
     return empty_list
 
 
-# preprocessing library that removes links, new lines, emojis and more, augments list sent to it
+# preprocessing library that removes links, new lines, emojis and more, augments the list sent to the function
 def preprocessed_tweets(tweet_list):
     for pos, string in enumerate(tweet_list):
         tweet_list[pos] = preprocessor.clean(string)
@@ -38,7 +39,7 @@ def preprocessed_tweets(tweet_list):
 
 
 # removing more garbage that preprocessing library did not capture, need more efficient method for this
-# augments list sent to it
+# augments list sent to function
 def remove_garbage(tweet_list):
     bad_list = ['\\n', '\\u200c', ':', '//s', '\\t', '.', '?', '!', ',', '"', '1', '2', '3', '4', '5', '6', '7', '8', '9', '-', " ' ", '[', ']', ';']
     for bad in bad_list:
@@ -73,22 +74,7 @@ def tokenize(tweet_list):
     print("Removed: ", removed_tokens)
     return all_tokenized_tweets
 
-    # same thing using pipeline, saving this for further reading later....
-    # tokenized_tweets = []
-    # removed_tokens = []
-    # tokenizer = spacy.tokenizer.Tokenizer(nlp.vocab)
-    # for spacy_doc in tokenizer.pipe(tweet_list, batch_size=500):
-    #     for token in spacy_doc:
-    #         if token.text.lower() not in STOP_WORDS and len(token.text) >= 2:
-    #             tokenized_tweets.append(token.text.lower())
-    #         else:
-    #             removed_tokens.append(token)
-    # print("Tokenized Tweets: ", tokenized_tweets)
-    # print("Removed: ", removed_tokens)
-    # return tokenized_tweets
-
-
-# stem tokenized words using NLTK Porter Stemmer augments list sent
+# stem tokenized words using NLTK Porter Stemmer augments the list sent to the function
 def stem_data(tweet_list):
     porter_stemmer = nltk.stem.PorterStemmer()
     for pos_list, lists in enumerate(tweet_list):
@@ -106,33 +92,37 @@ def remove_empty(tweet_list):
     return tweet_list
 
 
-def corpus_vis(tweet_list):
+def corpus_vis(tweet_list, output_name):
+    # create dictionary for words in list
     dictionary = gensim.corpora.Dictionary(tweet_list)
+    # match documents words with word dictionary
     corpus = [dictionary.doc2bow(word) for word in tweet_list]
     print(dictionary)
     print("corpus: ", corpus)
 
     lda_model = gensim.models.ldamodel.LdaModel(corpus=corpus,
                                                 id2word=dictionary,
-                                                num_topics=5,
+                                                # num topics
+                                                num_topics=10,
+                                                # Set to 0 for batch learning, > 1 for online iterative learning
                                                 update_every=1,
+                                                # num documents used fr each training chunk
                                                 chunksize=100,
-                                                passes=100,
-                                                alpha="auto")
+                                                # number of passes through corpus
+                                                passes=100)
 
-    print(lda_model)
+    # send LDA to pyLDAvis to create visualization
     vis_model = pyLDAvis.gensim.prepare(lda_model, corpus, dictionary)
-    print(vis_model)
-    pyLDAvis.save_html(vis_model, 'ldatemp.html')
+    pyLDAvis.save_html(vis_model, f'{output_name}.html')
 
 
 if __name__ == '__main__':
     bare_tweets = []
-    bare_tweets = load_json('C:/Users/JS/PycharmProjects/pythonProject/stream into database/all.json', bare_tweets)
+    bare_tweets = load_json('C:/Users/JS/PycharmProjects/pythonProject/stream into database/ankittwitter.json', bare_tweets)
     preprocessed_tweets(bare_tweets)
     remove_garbage(bare_tweets)
     tokenized_tweets = tokenize(bare_tweets)
     stem_data(tokenized_tweets)
     gensim_ready = remove_empty(tokenized_tweets)
-    corpus_vis(gensim_ready)
+    corpus_vis(gensim_ready, "ankittwitter")
 
