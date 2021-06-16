@@ -1,38 +1,102 @@
+* {
+  overflow:hidden;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+  background-color: #D6E6F1;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #494949;
+ 
 }
 
-.App-link {
-  color: #61dafb;
+.App h1 {
+  z-index: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button { 
+  border: 1px solid #000;
+  background-color: #78ADD2; 
+  opacity: 0.7;
+  border-radius:6px;
+  padding: 5px 10px;
+  transition: 1s ease-in-out;
+  font-size:24px;
+  z-index:1;
+}
+
+.button:hover { 
+  cursor: pointer;
+  padding: 8px 5px;
+  font-size: 36px;
+}
+
+
+.circle { 
+  right: -200px;
+  bottom: -300px;
+  width: 800px;
+  height: 800px;
+  background: #ECD3CB;
+  border: 1px solid #D8A493;
+  border-radius: 50%;
+  box-shadow: 5px 8px 50px #D4BDB6;
+  transition: 1s ease-in-out;
+  z-index:1;
+
+  position: absolute;
+}
+
+
+
+.circle:hover { 
+  width: 900px;
+  height: 900px;
+}
+
+.larger-circle { 
+  right: -100px;
+  bottom: -250px;
+  width: 1000px;
+  height: 1000px;
+  background: #ECD3CB;
+  border: 1px solid #D8A493;
+  border-radius: 50%;
+  box-shadow: 5px 8px 50px #D4BDB6;
+  transition: 1s ease-in-out;
+  opacity: 0.5;
+  position: absolute;
+  
+}
+
+
+
+.larger-circle:hover { 
+  width: 1100px;
+  height: 1100px;
+}
+
+.triangle { 
+  position: absolute;
+  left: 80px;
+  top: 80px;
+  width: 0; 
+  height: 0; 
+  border-left: 120px solid transparent;
+  border-right: 120px solid transparent;
+  border-bottom: 200px solid #DEEBF3;
+
+  transition: 1s;
+}
+
+.triangle:hover { 
+ 
+  border-left: 140px solid transparent;
+  border-right: 140px solid transparent;
+  
+  border-bottom: 230px solid #DEEBF3;
 }
