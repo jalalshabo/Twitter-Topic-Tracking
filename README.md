@@ -12,6 +12,7 @@ make sure you have the following installed
 * install missing packages
 ```bash
 foo@bar:~/../Twitter-Topic-Tracking$ yarn
+foo@bar:~/../Twitter-Topic-Tracking$ yarn install react-spring
 ```
 
 ### Backend related
