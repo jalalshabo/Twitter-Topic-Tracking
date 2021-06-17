@@ -5,9 +5,7 @@ import { useSpring, useTrail, animated } from 'react-spring';
 import './App.css';
 
 function App() {
-<<<<<<< HEAD
   const [currentTime, setCurrentTime] = useState(0)
-=======
 
   {/* Variable section that contains all the states that need to be tracked */}
   const [flag, setFlag] = useState(false);
@@ -23,9 +21,6 @@ function App() {
   const [MainMessage, setMainMessage] = useState("Welcome to Topic Tracking");
 
   const [SubMessage, setSubMessage] = useState("A Twitter-based application");
-
-  const [currentTime, setCurrentTime] = useState(0);
->>>>>>> 42522d6e438d0f048e67891fa50512eb353d50e6
 
   {/* This section is the animation section, where all the animations and transitions are done via the react-spring library*/}
   const fade = useSpring({ 
