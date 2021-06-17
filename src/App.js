@@ -4,7 +4,7 @@ import { useSpring, animated } from 'react-spring';
 import './App.css';
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0)
 
   const fade = useSpring({ 
     to: {opacity: 1 }, 
