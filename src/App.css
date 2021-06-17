@@ -1,5 +1,6 @@
 * {
   overflow:hidden;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .App {
@@ -11,11 +12,70 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: #494949;
- 
+  transition: 1s;
 }
 
-.App h1 {
+.App h1,p {
   z-index: 1;
+}
+
+.line {
+  position: absolute;
+  border-right:1px solid #000;
+ 
+  height:2000px;
+  -webkit-transform:
+            translateY(550px)
+            translateX(400px)
+            rotate(-45deg); 
+
+  z-index: 0;
+}
+
+.line2 {
+  position: absolute;
+  border-right:1px solid #000;
+ 
+  height:2000px;
+  -webkit-transform:
+            translateY(400px)
+            translateX(700px)
+            rotate(-45deg); 
+
+  z-index: 0;
+}
+
+.line3 {
+  position: absolute;
+  border-right:1px solid #000;
+ 
+  height:2000px;
+  -webkit-transform:
+            translateY(350px)
+            translateX(450px)
+            rotate(-45deg); 
+
+  z-index: 0;
+}
+.typewriter {
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+
+  white-space: nowrap; /* Keeps the content on a single line */
+  margin: 20px auto; /* Gives that scrolling effect as the typing happens */
+
+  animation: 
+    typing 2.0s steps(40, end),
+    blink-caret .75s step-end;
+}
+
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 19% }
+}
+
+h1 {
+  margin:0px;
 }
 
 .button { 
@@ -54,8 +114,8 @@
 
 
 .circle:hover { 
-  width: 900px;
-  height: 900px;
+  width: 850px;
+  height: 850px;
 }
 
 .larger-circle { 
