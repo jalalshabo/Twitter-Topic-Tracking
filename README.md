@@ -44,7 +44,10 @@ You will need to open 2 terminal windows
 * start flask backend terminal window
 ```bash
 (venv) foo@bar:~/../Twitter-Topic-Tracking/api$ cd ..
-(venv) foo@bar:~/../Twitter-Topic-Tracking/$ yarn start-api
+windows
+(venv) foo@bar:~/../Twitter-Topic-Tracking/$ yarn start-api-windows
+linux
+(venv) foo@bar:~/../Twitter-Topic-Tracking/$ yarn start-api-linux
 ```
 
 * start react frontend
