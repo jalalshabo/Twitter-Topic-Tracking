@@ -34,7 +34,7 @@ foo@bar:~/../Twitter-Topic-Tracking/api$ venv\Scripts\activate
 
 * install missing modules
 ```bash
-(venv) foo@bar:~/../Twitter-Topic-Tracking/api$ pip install flask python-dotenv
+(venv) foo@bar:~/../Twitter-Topic-Tracking/api$ pip install -r requirements.txt
 ```
 
 ### How to run
