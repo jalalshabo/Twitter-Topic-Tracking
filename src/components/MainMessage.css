@@ -1,0 +1,21 @@
+h1, p { 
+    z-index: 1;
+}
+
+.typewriter {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+  
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 20px auto; /* Gives that scrolling effect as the typing happens */
+  
+    animation: 
+      typing 2.0s steps(40, end),
+      blink-caret .75s step-end;
+  }
+  
+  /* The typing effect */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 19% }
+  }
+  

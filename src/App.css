@@ -13,74 +13,9 @@
   font-size: calc(10px + 2vmin);
   color: #494949;
   transition: 1s;
+
 }
 
-.App h1,p {
-  z-index: 1;
-}
-
-.line {
-  position: absolute;
-  border-right:1px solid #000;
- 
-  height:2000px;
-  -webkit-transform:
-            translateY(550px)
-            translateX(400px)
-            rotate(-45deg); 
-
-  z-index: 0;
-}
-
-.line2 {
-  position: absolute;
-  border-right:1px solid #000;
- 
-  height:2000px;
-  -webkit-transform:
-            translateY(400px)
-            translateX(700px)
-            rotate(-45deg); 
-
-  z-index: 0;
-}
-
-.line3 {
-  position: absolute;
-  border-right:1px solid #000;
- 
-  height:2000px;
-  -webkit-transform:
-            translateY(350px)
-            translateX(450px)
-            rotate(-45deg); 
-
-  z-index: 0;
-}
-
-.dateline { 
-  position: absolute;
-  width: 10%;
-  top: 49%;
-  color: #000;
-  opacity: 0;
-}
-.typewriter {
-  overflow: hidden; /* Ensures the content is not revealed until the animation */
-
-  white-space: nowrap; /* Keeps the content on a single line */
-  margin: 20px auto; /* Gives that scrolling effect as the typing happens */
-
-  animation: 
-    typing 2.0s steps(40, end),
-    blink-caret .75s step-end;
-}
-
-/* The typing effect */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 19% }
-}
 
 h1 {
   margin:0px;
@@ -89,7 +24,6 @@ h1 {
 .button { 
   position:absolute;
   border: 1px solid #000;
-  background-color: #88AAE5; 
   opacity: 0.7;
   border-radius:6px;
   padding: 5px 10px;
@@ -111,7 +45,6 @@ h1 {
 .dropdownbutton {
   position:absolute;
   border: 1px solid #000;
-  background-color: #88AAE5; 
   opacity: 0.2;
   border-radius:2px;
   padding: 3px 8px;
@@ -124,67 +57,6 @@ h1 {
   cursor: pointer;
 }
 
-.circle { 
-  right: -200px;
-  bottom: -300px;
-  width: 800px;
-  height: 800px;
-  background: #ECD3CB;
-  border: 1px solid #D8A493;
-  border-radius: 50%;
-  box-shadow: 5px 8px 50px #D4BDB6;
-  transition: 1s ease-in-out;
-  z-index:1;
-
-  position: absolute;
-}
 
 
 
-.circle:hover { 
-  width: 850px;
-  height: 850px;
-}
-
-.larger-circle { 
-  right: -100px;
-  bottom: -250px;
-  width: 1000px;
-  height: 1000px;
-  background: #ECD3CB;
-  border: 1px solid #D8A493;
-  border-radius: 50%;
-  box-shadow: 5px 8px 50px #D4BDB6;
-  transition: 1s ease-in-out;
-  opacity: 0.5;
-  position: absolute;
-  
-}
-
-
-
-.larger-circle:hover { 
-  width: 1100px;
-  height: 1100px;
-}
-
-.triangle { 
-  position: absolute;
-  left: 80px;
-  top: 80px;
-  width: 0; 
-  height: 0; 
-  border-left: 120px solid transparent;
-  border-right: 120px solid transparent;
-  border-bottom: 200px solid #DEEBF3;
-
-  transition: 1s;
-}
-
-.triangle:hover { 
- 
-  border-left: 140px solid transparent;
-  border-right: 140px solid transparent;
-  
-  border-bottom: 230px solid #DEEBF3;
-}

@@ -1,3 +1,8 @@
+
+p { 
+    z-index: 1;
+}
+
 .line {
     position: absolute;
     border-right:1px solid #000;
@@ -8,10 +13,10 @@
               translateX(400px)
               rotate(-45deg); 
   
-    z-index: 0;
-  }
+    z-index: 1;
+}
   
-  .line2 {
+.line2 {
     position: absolute;
     border-right:1px solid #000;
    
@@ -21,10 +26,10 @@
               translateX(700px)
               rotate(-45deg); 
   
-    z-index: 0;
-  }
+    z-index: 1;
+}
   
-  .line3 {
+.line3 {
     position: absolute;
     border-right:1px solid #000;
    
@@ -34,54 +39,46 @@
               translateX(450px)
               rotate(-45deg); 
   
-    z-index: 0;
-  }
-  
+    z-index: 1;
+}
+
+.dateline { 
+    position: absolute;
+    right: 45%;
+    width: 10%;
+    top: 49%;
+    color: #000;
+    opacity: 0;
+}
 
 .circle { 
     right: -200px;
     bottom: -300px;
-    width: 800px;
-    height: 800px;
+    width: 700px;
+    height: 700px;
     background: #ECD3CB;
     border: 1px solid #D8A493;
     border-radius: 50%;
     box-shadow: 5px 8px 50px #D4BDB6;
-    transition: 1s ease-in-out;
     z-index:1;
   
     position: absolute;
-  }
+}
   
   
-  
-  .circle:hover { 
-    width: 850px;
-    height: 850px;
-  }
-  
-  .larger-circle { 
-    right: -100px;
+.larger-circle { 
+    right: -200px;
     bottom: -250px;
-    width: 1000px;
-    height: 1000px;
+    width: 900px;
+    height: 900px;
     background: #ECD3CB;
     border: 1px solid #D8A493;
     border-radius: 50%;
     box-shadow: 5px 8px 50px #D4BDB6;
-    transition: 1s ease-in-out;
     opacity: 0.5;
     position: absolute;
     
-  }
-  
-  
-  
-  .larger-circle:hover { 
-    width: 1100px;
-    height: 1100px;
-  }
-  
+}
 
 .triangle { 
     position: absolute;
@@ -94,13 +91,15 @@
     border-bottom: 200px solid #DEEBF3;
   
     transition: 1s;
-  }
+}
   
-  .triangle:hover { 
+.triangle:hover { 
    
     border-left: 140px solid transparent;
     border-right: 140px solid transparent;
     
     border-bottom: 230px solid #DEEBF3;
-  }
+}
+
+  
   
