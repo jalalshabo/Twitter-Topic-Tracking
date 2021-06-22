@@ -2,6 +2,7 @@ import React, {useState, useContext} from 'react'
 import { globalContext } from '../context/globalContext';
 import {useSpring, animated} from 'react-spring';
 import Calendar from 'react-calendar';
+import DropdownSection from './DropdownSection';
 
 import './InputSection.css';
 
@@ -64,7 +65,9 @@ function InputSection() {
             
             {SelectDate2? <Calendar onChange={onChange2} value = {date} /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={enterDate2}>{buttonMessage2}</animated.button>}
             
-            <animated.button style = {useSpring({to:{opacity:globalState?1: 0,marginTop:globalState?400: 0, backgroundColor: "#D5D5D5"}, from:{opacity:0,},})} className="dropdownbutton" id="dropdown">Overall <p className="triangle"></p></animated.button>
+            <DropdownSection> 
+          
+            </DropdownSection>
             
             <animated.button style = {useSpring({to:{opacity:globalState?0.5: 0,marginTop:globalState?700: 0, backgroundColor: "#555555", color:"#fff"}, from:{opacity:0,},})} className="button" id="submitbutton" >Submit</animated.button>
             
