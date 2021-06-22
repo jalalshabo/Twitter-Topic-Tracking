@@ -21,41 +21,6 @@ h1 {
   margin:0px;
 }
 
-.button { 
-  position:absolute;
-  border: 1px solid #000;
-  opacity: 0.7;
-  border-radius:6px;
-  padding: 5px 10px;
-  transition: 1s ease-in-out;
-  font-size:24px;
-  z-index:1;
-}
-
-#button1 { 
-  z-index:2;
-}
-
-.button:hover { 
-  cursor: pointer;
-  padding: 8px 5px;
-  font-size: 36px;
-}
-
-.dropdownbutton {
-  position:absolute;
-  border: 1px solid #000;
-  opacity: 0.2;
-  border-radius:2px;
-  padding: 3px 8px;
-  transition: 1s ease-in-out;
-  font-size:24px;
-  z-index:1;
-}
-
-.dropdownbutton:hover { 
-  cursor: pointer;
-}
 
 
 
