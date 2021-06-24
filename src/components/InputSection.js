@@ -63,7 +63,7 @@ function InputSection() {
         <>
             {SelectDate1? <Calendar onChange={onChange1} value = {date} className="front"/> : <animated.button style = {fadebutton} className="button" id="button1" onClick={globalState? enterDate1: secondPage}>{buttonMessage1}</animated.button>}
             
-            {SelectDate2? <Calendar onChange={onChange2} value = {date} /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={enterDate2}>{buttonMessage2}</animated.button>}
+            {SelectDate2? <Calendar onChange={onChange2} value = {date} className="front" /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={enterDate2}>{buttonMessage2}</animated.button>}
             
             <DropdownSection> 
           

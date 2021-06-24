@@ -1,7 +1,9 @@
 h1, p { 
     z-index: 1;
 }
-
+.submessage { 
+  position: absolute;
+}
 .typewriter {
     overflow: hidden; /* Ensures the content is not revealed until the animation */
   

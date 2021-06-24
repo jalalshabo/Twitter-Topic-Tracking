@@ -23,10 +23,17 @@ function MainMessage() {
         config: {mass: 1, frequency: 1, damping: 1},
     });
    
+    const translate2 = useSpring({ 
+        to: {opacity: 1 ,translateY:190}, 
+        from: {opacity: 0, translateY:0 },
+        delay: 500,
+        
+        config: {mass: 1, frequency: 1, damping: 1},
+    });
     return (
         <>
           <animated.h1 style = {translate}> {TitleMessage} </animated.h1>
-          <animated.p style = {fade} className="typewriter"> {SubMessage}</animated.p>
+          <animated.p style = {globalState? translate2 :fade} className="typewriter"> {SubMessage}</animated.p>
         </>
     )
 }

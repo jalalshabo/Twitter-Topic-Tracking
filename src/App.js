@@ -51,7 +51,7 @@ function App() {
     setbgColor("#6B7378");
     setColor("#fff");
     setMainMessage("Enter your date range");
-    setSubMessage("");
+    setSubMessage("Sort Method:");
     setglobalState(true);
     setButtonMessage1("YYYY-MM-DD")
 
