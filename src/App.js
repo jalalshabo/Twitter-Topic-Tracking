@@ -1,6 +1,6 @@
 /* Core/Library Imports */
 import React, { useState, useEffect } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring } from 'react-spring';
 import './App.css';
 /* Component Imports */
 import MainMessage from  './components/MainMessage';
@@ -42,7 +42,7 @@ function App() {
   /* This section will contain all the functional data that is being pulled from the python file */
   useEffect(() => {
     fetch('/time').then(response => response.json()).then(data => {
-      setCurrentTime(data.time);
+      console.log(data.time);
     });
   }, []);
 

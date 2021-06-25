@@ -1,18 +1,19 @@
 import React,{ useContext, useState}  from 'react';
 import {useSpring, animated} from 'react-spring';
 import {globalContext} from '../context/globalContext';
+import {inputContext} from '../context/inputContext';
 import './DropdownSection.css';
 function DropdownSection(props) {
 
     const {globalState} = useContext(globalContext);
-
+    const {chosenOption,setChosenOption} = useContext(inputContext);
     const dropdowntransition = useSpring({
         to:{opacity:globalState?0.7: 0,marginTop:globalState?200: 0, backgroundColor: "#D5D5D5"},
         from:{opacity:0,},
     })
 
     const [open, setOpen] = useState(false);
-    const [chosenOption, setChosenOption] = useState("List");
+    
 
     function changeDropdownTarget(option) {
      
@@ -38,6 +39,9 @@ function DropdownSection(props) {
             </div>
         );
     }
+
+    
+
     return (
         <>
          
