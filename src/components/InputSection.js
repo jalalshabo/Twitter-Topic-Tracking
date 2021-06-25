@@ -4,7 +4,6 @@ import { inputContext} from '../context/inputContext';
 import {useSpring, animated} from 'react-spring';
 import Calendar from 'react-calendar';
 import DropdownSection from './DropdownSection';
-import { Async } from 'react-async';
 
 import './InputSection.css';
 
@@ -20,7 +19,7 @@ function InputSection() {
     const [Submit, setSubmit] = useState(false);
 
     const [buttonMessage2, setButtonMessage2] = useState("YYYY-MM-DD");
-    const [chosenOption, setChosenOption] = useState("List");
+    const [chosenOption, setChosenOption] = useState("Overall");
 
     const [date, setDate] = useState (new Date());
     const fadebutton = useSpring({ 
@@ -66,13 +65,13 @@ function InputSection() {
     } 
     
     useEffect(() => {
-        if (Submit){
+       
             fetch('/sqlstatement').then(response => response.json()).then( data => {
                 console.log(data.sqlstatement);
             });
-        }
+        
        
-    });
+    }, [Submit]);
     return (
         <>
             {SelectDate1? <Calendar onChange={onChange1} value = {date} className="front"/> : <animated.button style = {fadebutton} className="button" id="button1" onClick={globalState? enterDate1: secondPage}>{buttonMessage1}</animated.button>}
@@ -86,7 +85,7 @@ function InputSection() {
            
             <animated.button style = {useSpring({to:{opacity:globalState?0.5: 0,marginTop:globalState?700: 0, backgroundColor: "#555555", color:"#fff"}, from:{opacity:0,},})} className="button" id="submitbutton" 
                     onClick = { async () => {
-                    const inputdata = {buttonMessage1, buttonMessage2};
+                    const inputdata = {buttonMessage1, buttonMessage2, chosenOption};
                     const response = await fetch('./add_sqlstatement', {
                         method: 'POST',
                         headers: {

@@ -14,8 +14,14 @@ def get_current_time():
 @app.route('/add_sqlstatement', methods=['POST'])
 def add_sqlstatement():
     sqldata = request.get_json()
-    
-    sqlstatement = "SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'" + sqldata['buttonMessage1'] + "\'" + " and \'" + sqldata['buttonMessage2'] + "\'" 
+    global sqlstatement
+
+    if sqldata['chosenOption'] == 'Overall':
+        sqlstatement = "SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'" + sqldata['buttonMessage1'] + "\'" + " and \'" + sqldata['buttonMessage2'] + "\'" 
+    elif sqldata['chosenOption'] == 'User':
+        sqlstatement = "SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'" + sqldata['buttonMessage1'] + "\'" + " and \'" + sqldata['buttonMessage2'] + "\' AND WHERE userName =\'"
+    elif sqldata['chosenOption'] == 'Location':
+        sqlstatement = "SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'" + sqldata['buttonMessage1'] + "\'" + " and \'" + sqldata['buttonMessage2'] + "\' AND WHERE tweetCity =\'"
     return 'Statement sent'
 
 @app.route('/sqlstatement')
