@@ -14,6 +14,7 @@ function MainMessage() {
 
     const {TitleMessage} = useContext(messageContext);
     const {SubMessage} = useContext(messageContext);
+    const {setSubMessage} = useContext(messageContext);
 
     const translate = useSpring({ 
         to: {opacity: 1 ,marginTop:globalState?-100:-200}, 

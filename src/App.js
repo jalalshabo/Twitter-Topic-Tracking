@@ -62,18 +62,20 @@ function App() {
   return (
     <div className= "App" style={{backgroundColor: bgColor, color: Color}}>
       <globalContext.Provider value = {{globalState, setglobalState, secondPage, buttonMessage1, setButtonMessage1}}>
+        <messageContext.Provider value = {{TitleMessage, SubMessage,setSubMessage}}>
         {/*Pure background elements*/}
         <Background />
         <transitionContext.Provider value = {{fade}}>
             {/*text related elements */}
-            <messageContext.Provider value = {{TitleMessage, SubMessage}}>
+            
                 <MainMessage />
-            </messageContext.Provider>
+      
             
             {/*functional component*/}
             <InputSection />
              
         </transitionContext.Provider>
+        </messageContext.Provider>
       </globalContext.Provider>
     </div>
   );

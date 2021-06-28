@@ -1,6 +1,7 @@
-import React, {useState, useContext, useEffect} from 'react'
+import React, {useState, useContext, useEffect, useRef} from 'react'
 import { globalContext } from '../context/globalContext';
 import { inputContext} from '../context/inputContext';
+import { messageContext } from '../context/messageContext';
 import {useSpring, animated} from 'react-spring';
 import Calendar from 'react-calendar';
 import DropdownSection from './DropdownSection';
@@ -13,15 +14,25 @@ function InputSection() {
     const {secondPage} = useContext(globalContext);
     const {buttonMessage1} = useContext(globalContext);
     const {setButtonMessage1} = useContext(globalContext);
+    const {TitleMessage} = useContext(messageContext);
+    const {SubMessage} = useContext(messageContext);
+    const {setSubMessage} = useContext(messageContext);
+
 
     const [SelectDate1, setSelectDate1] = useState(false);
     const [SelectDate2, setSelectDate2] = useState(false);
     const [Submit, setSubmit] = useState(false);
+    const [InputFieldValue, setInputFieldValue] = useState('');
+    const today = new Date();
 
     const [buttonMessage2, setButtonMessage2] = useState("YYYY-MM-DD");
     const [chosenOption, setChosenOption] = useState("Overall");
 
     const [date, setDate] = useState (new Date());
+    const [date1, setDate1] = useState (new Date());
+
+    const [date2, setDate2] = useState (new Date());
+    const isInitialMount = useRef(true);
     const fadebutton = useSpring({ 
         to: {marginRight:globalState?400:0, backgroundColor:globalState? "#D5D5D5" : "#88AAE5" ,opacity:0.5}, 
         from: {opacity: 0},
@@ -47,45 +58,61 @@ function InputSection() {
     }  
  
     const onChange1 = date => { 
-        setDate(date);
 
-        setSelectDate1(false);
-        setButtonMessage1(date.toISOString().substring(0, 10));
-        var button2 = document.getElementById("button2");
-        button2.style.display="block";
+        if (date.setHours(0,0,0,0) <= today.setHours(0,0,0,0)) {
+            setDate1(date);
+
+            setSelectDate1(false);
+            setButtonMessage1(date.toISOString().substring(0, 10));
+            var button2 = document.getElementById("button2");
+            button2.style.display="block";
+        }
+        else {
+            alert ("Choose a valid date!");
+        }
     } 
 
     const onChange2 = date => { 
-        setDate(date);
+        if (date.setHours(0,0,0,0) <= today.setHours(0,0,0,0) && date1.setHours(0,0,0,0) <= date.setHours(0,0,0,0)) {
+            setDate2(date);
 
-        setSelectDate2(false);
-        setButtonMessage2(date.toISOString().substring(0, 10));
-        var button1 = document.getElementById("button1");
-        button1.style.display="block";
+            setSelectDate2(false);
+            setButtonMessage2(date.toISOString().substring(0, 10));
+            var button1 = document.getElementById("button1");
+            button1.style.display="block";
+        }
+        else {
+            alert ("Choose a valid date!");
+        }
     } 
     
     useEffect(() => {
-       
-            fetch('/sqlstatement').then(response => response.json()).then( data => {
-                console.log(data.sqlstatement);
-            });
-        
-       
-    }, [Submit]);
+            if (isInitialMount.current) { 
+                isInitialMount.current = false;
+            }
+            else {
+                fetch('/sqlstatement').then(response => response.json()).then( data => {
+                    console.log(data.sqlstatement);
+                    if (Submit) { 
+                        setSubMessage(data.sqlstatement);
+                    }
+                    
+                });
+            }
+    });
     return (
         <>
-            {SelectDate1? <Calendar onChange={onChange1} value = {date} className="front"/> : <animated.button style = {fadebutton} className="button" id="button1" onClick={globalState? enterDate1: secondPage}>{buttonMessage1}</animated.button>}
+            {SelectDate1? <Calendar onChange={onChange1} value = {date} className="front-calendar"/> : <animated.button style = {fadebutton} className="button" id="button1" onClick={globalState? enterDate1: secondPage}>{buttonMessage1}</animated.button>}
             
-            {SelectDate2? <Calendar onChange={onChange2} value = {date} className="front" /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={enterDate2}>{buttonMessage2}</animated.button>}
-            <inputContext.Provider value = {{chosenOption,setChosenOption}}>
-                <DropdownSection> 
-          
-                </DropdownSection>
+            {SelectDate2? <Calendar onChange={onChange2} value = {date} className="front-calendar" /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={enterDate2}>{buttonMessage2}</animated.button>}
+            <inputContext.Provider value = {{chosenOption,setChosenOption, setInputFieldValue}}>
+                { globalState && <DropdownSection />} 
+     
             </inputContext.Provider>
            
             <animated.button style = {useSpring({to:{opacity:globalState?0.5: 0,marginTop:globalState?700: 0, backgroundColor: "#555555", color:"#fff"}, from:{opacity:0,},})} className="button" id="submitbutton" 
                     onClick = { async () => {
-                    const inputdata = {buttonMessage1, buttonMessage2, chosenOption};
+                    const inputdata = {buttonMessage1, buttonMessage2, chosenOption, InputFieldValue};
                     const response = await fetch('./add_sqlstatement', {
                         method: 'POST',
                         headers: {
@@ -96,6 +123,7 @@ function InputSection() {
                     
                     if (response.ok) {
                         console.log("Request was successful");
+                 
                         setSubmit(true);
                     }
                     

@@ -1,4 +1,4 @@
-import React,{ useContext, useState}  from 'react';
+import React,{ useContext, useEffect,  useState}  from 'react';
 import {useSpring, animated} from 'react-spring';
 import {globalContext} from '../context/globalContext';
 import {inputContext} from '../context/inputContext';
@@ -7,13 +7,14 @@ function DropdownSection(props) {
 
     const {globalState} = useContext(globalContext);
     const {chosenOption,setChosenOption} = useContext(inputContext);
+    const {inputFieldValue,setInputFieldValue} = useContext(inputContext);
     const dropdowntransition = useSpring({
         to:{opacity:globalState?0.7: 0,marginTop:globalState?200: 0, backgroundColor: "#D5D5D5"},
         from:{opacity:0,},
     })
 
     const [open, setOpen] = useState(false);
-    
+    const [InputField, setInputField] = useState(false);
 
     function changeDropdownTarget(option) {
      
@@ -40,7 +41,14 @@ function DropdownSection(props) {
         );
     }
 
-    
+    useEffect(() => {
+        if (chosenOption == "User" || chosenOption ==  "Location") {
+            setInputField(true);
+        }
+        else {
+            setInputField(false);
+        }
+    })
 
     return (
         <>
@@ -49,6 +57,7 @@ function DropdownSection(props) {
                      {chosenOption} {open? <i class="fas fa-caret-up"></i> : <i class="fas fa-caret-down"></i>}
             </animated.a>
 
+            {InputField && <><input className = "inputfield" onChange = {event => setInputFieldValue(event.target.value)} /> </>}
             {open && <Dropdown />}
         </>
     )

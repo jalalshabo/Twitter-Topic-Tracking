@@ -4,7 +4,7 @@
     opacity: 0.7;
     border-radius:6px;
     padding: 5px 10px;
-    transition: 0.5s ease-in-out;
+    transition: 0.2s ease-in-out;
     font-size:24px;
     z-index:1;
 }
@@ -23,4 +23,17 @@
 .front { 
     z-index: 2;
 }
-  
+
+.front-calendar { 
+    z-index: 2;
+    background-color: #808C93;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 0.2s ease-in-out;
+}
+
+.front-calendar:hover { 
+    background-color: #787F82;
+    padding: 15px;
+   
+}
