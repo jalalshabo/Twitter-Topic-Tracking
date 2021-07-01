@@ -14,10 +14,10 @@ function MainMessage() {
 
     const {TitleMessage} = useContext(messageContext);
     const {SubMessage} = useContext(messageContext);
-    const {setSubMessage} = useContext(messageContext);
+
 
     const translate = useSpring({ 
-        to: {opacity: 1 ,marginTop:globalState?-100:-200}, 
+        to: {opacity: 1 ,marginTop:(globalState == 1)?-100:-200}, 
         from: {opacity: 0, marginTop: -500},
         
         
@@ -33,8 +33,8 @@ function MainMessage() {
     });
     return (
         <>
-          <animated.h1 style = {translate}> {TitleMessage} </animated.h1>
-          <animated.p style = {globalState? translate2 :fade} className="typewriter"> {SubMessage}</animated.p>
+          { (globalState != 2) &&<animated.h1 style = {translate}> {TitleMessage} </animated.h1>}
+          <animated.p style = {(globalState == 1)? translate2 :fade} className="typewriter"> {SubMessage}</animated.p>
         </>
     )
 }

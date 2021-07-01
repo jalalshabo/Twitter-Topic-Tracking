@@ -6,6 +6,7 @@ import './App.css';
 import MainMessage from  './components/MainMessage';
 import Background from './components/Background';
 import InputSection from './components/InputSection';
+import ResultPage from './components/ResultPage';
 /* Context Imports */
 import {globalContext} from './context/globalContext';
 import {messageContext} from './context/messageContext';
@@ -15,7 +16,7 @@ function App() {
   const [currentTime, setCurrentTime] = useState(0)
 
   /* Variable section that contains all the states that need to be tracked */
-  const [globalState, setglobalState] = useState(false);
+  const [globalState, setglobalState] = useState(0);
 
   /* This is a very roundabout way of deleting a button, not efficient at all */
   const [buttonMessage1,setButtonMessage1] = useState("Let's begin");
@@ -30,8 +31,8 @@ function App() {
 
   /* Global Spring Section*/
   const fade = useSpring({ 
-    to: {opacity: globalState? 0 : 1}, 
-    from: {opacity: globalState? 1 : 0},
+    to: {opacity: (globalState == 1)? 0 : 1}, 
+    from: {opacity: (globalState == 1)? 1 : 0},
     delay:globalState?0:300,
     
     config: {duration: 1000},
@@ -52,7 +53,7 @@ function App() {
     setColor("#fff");
     setMainMessage("Enter your date range");
     setSubMessage("Sort Method:");
-    setglobalState(true);
+    setglobalState(1);
     setButtonMessage1("YYYY-MM-DD")
 
   } 
@@ -64,16 +65,18 @@ function App() {
       <globalContext.Provider value = {{globalState, setglobalState, secondPage, buttonMessage1, setButtonMessage1}}>
         <messageContext.Provider value = {{TitleMessage, SubMessage,setSubMessage}}>
         {/*Pure background elements*/}
+
         <Background />
+
         <transitionContext.Provider value = {{fade}}>
             {/*text related elements */}
             
                 <MainMessage />
       
-            
             {/*functional component*/}
-            <InputSection />
-             
+
+            {(globalState !=2) && <InputSection />}
+            {(globalState == 3) && <ResultPage />}
         </transitionContext.Provider>
         </messageContext.Provider>
       </globalContext.Provider>

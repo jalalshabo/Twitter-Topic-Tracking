@@ -9,7 +9,7 @@ function DropdownSection(props) {
     const {chosenOption,setChosenOption} = useContext(inputContext);
     const {inputFieldValue,setInputFieldValue} = useContext(inputContext);
     const dropdowntransition = useSpring({
-        to:{opacity:globalState?0.7: 0,marginTop:globalState?200: 0, backgroundColor: "#D5D5D5"},
+        to:{opacity:(globalState == 1)?0.7: 0,marginTop:(globalState == 1)?200: 0, backgroundColor: "#D5D5D5"},
         from:{opacity:0,},
     })
 

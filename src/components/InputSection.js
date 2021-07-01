@@ -17,13 +17,15 @@ function InputSection() {
     const {TitleMessage} = useContext(messageContext);
     const {SubMessage} = useContext(messageContext);
     const {setSubMessage} = useContext(messageContext);
-
+    const {setglobalState} = useContext(globalContext);
 
     const [SelectDate1, setSelectDate1] = useState(false);
     const [SelectDate2, setSelectDate2] = useState(false);
     const [Submit, setSubmit] = useState(false);
     const [InputFieldValue, setInputFieldValue] = useState('');
     const today = new Date();
+    const [Date1Selected,setDate1Selected] = useState(false);
+    const [Date2Selected,setDate2Selected] = useState(false);
 
     const [buttonMessage2, setButtonMessage2] = useState("YYYY-MM-DD");
     const [chosenOption, setChosenOption] = useState("Overall");
@@ -33,16 +35,17 @@ function InputSection() {
 
     const [date2, setDate2] = useState (new Date());
     const isInitialMount = useRef(true);
+    
     const fadebutton = useSpring({ 
-        to: {marginRight:globalState?400:0, backgroundColor:globalState? "#D5D5D5" : "#88AAE5" ,opacity:0.5}, 
+        to: {marginRight:(globalState == 1)?400:0, backgroundColor:(globalState == 1)? "#D5D5D5" : "#88AAE5" ,opacity:0.5}, 
         from: {opacity: 0},
-        delay:globalState?0:300,
+        delay:(globalState == 1)?0:300,
        
         config: {duration: 1000},
       });
 
     const secondbutton = useSpring({
-        to:{opacity:globalState?0.5: 0,marginLeft:globalState?400: 0, backgroundColor: "#D5D5D5"},  
+        to:{opacity:(globalState == 1)?0.5: 0,marginLeft:(globalState == 1)?400: 0, backgroundColor: "#D5D5D5"},  
         from:{opacity:0,},
     });
     const enterDate1 = () => {
@@ -59,13 +62,14 @@ function InputSection() {
  
     const onChange1 = date => { 
 
-        if (date.setHours(0,0,0,0) <= today.setHours(0,0,0,0)) {
+        if (date.setHours(0,0,0,0) <= today.setHours(0,0,0,0) && date.setHours(0,0,0,0) <= date2.setHours(0,0,0,0)) {
             setDate1(date);
 
             setSelectDate1(false);
             setButtonMessage1(date.toISOString().substring(0, 10));
             var button2 = document.getElementById("button2");
             button2.style.display="block";
+            setDate1Selected(true);
         }
         else {
             alert ("Choose a valid date!");
@@ -73,13 +77,28 @@ function InputSection() {
     } 
 
     const onChange2 = date => { 
-        if (date.setHours(0,0,0,0) <= today.setHours(0,0,0,0) && date1.setHours(0,0,0,0) <= date.setHours(0,0,0,0)) {
-            setDate2(date);
+        if (date.setHours(0,0,0,0) <= today.setHours(0,0,0,0)) {
+            if (Date1Selected && date1.setHours(0,0,0,0) <= date.setHours(0,0,0,0)) {
+                setDate2(date);
 
-            setSelectDate2(false);
-            setButtonMessage2(date.toISOString().substring(0, 10));
-            var button1 = document.getElementById("button1");
-            button1.style.display="block";
+                setSelectDate2(false);
+                setButtonMessage2(date.toISOString().substring(0, 10));
+                var button1 = document.getElementById("button1");
+                button1.style.display="block";
+                setDate2Selected(true);
+            }  
+            else if (!Date1Selected) {
+                setDate2(date);
+
+                setSelectDate2(false);
+                setButtonMessage2(date.toISOString().substring(0, 10));
+                var button1 = document.getElementById("button1");
+                button1.style.display="block";
+                setDate2Selected(true);
+            }
+            else {
+                alert ("Choose a valid date!");
+            }
         }
         else {
             alert ("Choose a valid date!");
@@ -95,40 +114,48 @@ function InputSection() {
                     console.log(data.sqlstatement);
                     if (Submit) { 
                         setSubMessage(data.sqlstatement);
+                        setglobalState(2);
                     }
                     
                 });
             }
     });
+
     return (
         <>
-            {SelectDate1? <Calendar onChange={onChange1} value = {date} className="front-calendar"/> : <animated.button style = {fadebutton} className="button" id="button1" onClick={globalState? enterDate1: secondPage}>{buttonMessage1}</animated.button>}
+            {SelectDate1? <Calendar onChange={onChange1} value = {date} className="front-calendar"/> : <animated.button style = {fadebutton} className="button" id="button1" onClick={(globalState == 1)? enterDate1: secondPage}>{buttonMessage1}</animated.button>}
             
-            {SelectDate2? <Calendar onChange={onChange2} value = {date} className="front-calendar" /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={enterDate2}>{buttonMessage2}</animated.button>}
+            {SelectDate2? <Calendar onChange={onChange2} value = {date} className="front-calendar" /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={(globalState == 1)?enterDate2: ''}>{buttonMessage2}</animated.button>}
             <inputContext.Provider value = {{chosenOption,setChosenOption, setInputFieldValue}}>
-                { globalState && <DropdownSection />} 
+                { (globalState == 1) && <DropdownSection />} 
      
             </inputContext.Provider>
            
-            <animated.button style = {useSpring({to:{opacity:globalState?0.5: 0,marginTop:globalState?700: 0, backgroundColor: "#555555", color:"#fff"}, from:{opacity:0,},})} className="button" id="submitbutton" 
+            <animated.button style = {useSpring({to:{opacity:(globalState == 1)?0.5: 0,marginTop:(globalState == 1)?700: 0, backgroundColor: "#555555", color:"#fff"}, from:{opacity:0,},})} className="button" id="submitbutton" 
                     onClick = { async () => {
-                    const inputdata = {buttonMessage1, buttonMessage2, chosenOption, InputFieldValue};
-                    const response = await fetch('./add_sqlstatement', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(inputdata)
-                    })
+                    if (Date1Selected && Date2Selected) {
+                        const inputdata = {buttonMessage1, buttonMessage2, chosenOption, InputFieldValue};
+                        const response = await fetch('./add_sqlstatement', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(inputdata)
+                        })
                     
-                    if (response.ok) {
-                        console.log("Request was successful");
-                 
-                        setSubmit(true);
-                    }
+                        if (response.ok) {
+                            console.log("Request was successful");
+                    
+                            setSubmit(true);
+                        }
                     
                    
-                    console.log(Submit);
+                        console.log(Submit);
+                    }
+                    else {
+                        alert ("You must enter a date range first!");
+                    }
+                    
             }}>Submit</animated.button>
             
         </>
