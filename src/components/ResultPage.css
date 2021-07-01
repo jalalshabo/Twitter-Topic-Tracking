@@ -1,0 +1,12 @@
+.result-graph { 
+    width:60%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 5px 8px 50px #999;
+    z-index: 2;
+    transition: 0.3s ease-in-out;
+}
+
+.result-graph:hover { 
+    width:62%;
+}

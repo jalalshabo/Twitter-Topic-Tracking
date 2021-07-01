@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSpring } from 'react-spring';
 import './App.css';
+
 /* Component Imports */
 import MainMessage from  './components/MainMessage';
 import Background from './components/Background';
@@ -76,7 +77,7 @@ function App() {
             {/*functional component*/}
 
             {(globalState !=2) && <InputSection />}
-            {(globalState == 3) && <ResultPage />}
+            {(globalState == 2 ) && <ResultPage />}
         </transitionContext.Provider>
         </messageContext.Provider>
       </globalContext.Provider>
