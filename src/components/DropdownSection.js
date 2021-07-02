@@ -1,7 +1,10 @@
 import React,{ useContext, useEffect,  useState}  from 'react';
 import {useSpring, animated} from 'react-spring';
+
 import {globalContext} from '../context/globalContext';
 import {inputContext} from '../context/inputContext';
+
+
 import './DropdownSection.css';
 function DropdownSection(props) {
 
@@ -15,6 +18,7 @@ function DropdownSection(props) {
 
     const [open, setOpen] = useState(false);
     const [InputField, setInputField] = useState(false);
+    const [address,setAddress] = useState('');
 
     function changeDropdownTarget(option) {
      
@@ -57,7 +61,12 @@ function DropdownSection(props) {
                      {chosenOption} {open? <i class="fas fa-caret-up"></i> : <i class="fas fa-caret-down"></i>}
             </animated.a>
 
-            {InputField && <><input className = "inputfield" onChange = {event => setInputFieldValue(event.target.value)} /> </>}
+            {InputField && 
+            
+            <>
+            <input className = "inputfield" onChange = {event => setInputFieldValue(event.target.value)} /> 
+          
+            </>}
             {open && <Dropdown />}
         </>
     )

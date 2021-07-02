@@ -33,7 +33,7 @@ function MainMessage() {
     });
     return (
         <>
-          { (globalState != 2) &&<animated.h1 style = {translate}> {TitleMessage} </animated.h1>}
+          <animated.h1 style = {translate}> {TitleMessage} </animated.h1>
           <animated.p style = {(globalState == 1)? translate2 :fade} className="typewriter"> {SubMessage}</animated.p>
         </>
     )

@@ -64,7 +64,7 @@ function App() {
   return (
     <div className= "App" style={{backgroundColor: bgColor, color: Color}}>
       <globalContext.Provider value = {{globalState, setglobalState, secondPage, buttonMessage1, setButtonMessage1}}>
-        <messageContext.Provider value = {{TitleMessage, SubMessage,setSubMessage}}>
+        <messageContext.Provider value = {{TitleMessage, SubMessage,setSubMessage, setMainMessage}}>
         {/*Pure background elements*/}
 
         <Background />

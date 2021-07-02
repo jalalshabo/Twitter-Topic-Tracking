@@ -1,12 +1,17 @@
+.result-wrapper { 
+    display:flex;
+    flex-direction: row;
+}
 .result-graph { 
-    width:60%;
+    width:800px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 5px 8px 50px #999;
     z-index: 2;
+    margin: 20px;
     transition: 0.3s ease-in-out;
 }
 
 .result-graph:hover { 
-    width:62%;
+    width:900px;
 }

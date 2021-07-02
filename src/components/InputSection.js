@@ -14,8 +14,7 @@ function InputSection() {
     const {secondPage} = useContext(globalContext);
     const {buttonMessage1} = useContext(globalContext);
     const {setButtonMessage1} = useContext(globalContext);
-    const {TitleMessage} = useContext(messageContext);
-    const {SubMessage} = useContext(messageContext);
+    const {setMainMessage} = useContext(messageContext);
     const {setSubMessage} = useContext(messageContext);
     const {setglobalState} = useContext(globalContext);
 
@@ -114,6 +113,7 @@ function InputSection() {
                     console.log(data.sqlstatement);
                     if (Submit) { 
                         setSubMessage(data.sqlstatement);
+                        setMainMessage("Topic Tracking Results: ");
                         setglobalState(2);
                     }
                     
