@@ -4,7 +4,7 @@ from twitter_converter import TweetFactory
 
 
 app = Flask(__name__)
-DAL = TweetFactory()
+tweet_factory = TweetFactory()
 
 sqlstatement = ''
 
@@ -20,7 +20,7 @@ def get_current_time():
     # retrieve tweets in date range
     start_date = request.args['start_date']
     end_date = request.args['end_date']
-    results = DAL.tweets_by_date_range(start_date, end_date)
+    results = tweet_factory.tweets_by_date_range(start_date, end_date)
     data = {}
     for x in results:
         data[x[0]] = x[1]
