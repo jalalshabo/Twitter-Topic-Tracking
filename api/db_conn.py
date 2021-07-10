@@ -67,14 +67,15 @@ class Database:
             on success: python list of query results
             on failure: {"error": "error message"}
         """
-        # get db connection
-        db_cursor = self.get_connection().cursor()
-
         # execute query
         try:
+            conn = self.get_connection()
+            db_cursor = conn.cursor()
             db_cursor.execute(query)
-            db_cursor.commit()
-            return db_cursor.fetchall()
+            results = db_cursor.fetchall()
+            conn.commit()
+            db_cursor.close()
+            return results
         except mysql.connector.Error as error:
             return {"error": error.msg}
 
