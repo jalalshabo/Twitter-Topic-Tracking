@@ -8,8 +8,8 @@ tweet_factory = TweetFactory()
 
 sqlstatement = ''
 
-@app.route('/time', methods=['GET'])
-def get_current_time():
+@app.route('api/tweets', methods=['GET'])
+def get_tweets():
     # check id start_date and end_date were provided in url
     if 'start_date' not in request.args:
         return {"error": "missing start_date argument"}
