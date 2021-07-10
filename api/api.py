@@ -8,9 +8,28 @@ tweet_factory = TweetFactory()
 
 sqlstatement = ''
 
-@app.route('api/tweets', methods=['GET'])
-def get_tweets():
-    # check id start_date and end_date were provided in url
+@app.route('/api/tweets/single_date', methods=['GET'])
+def get_tweets_single():
+    # check if date arguments is provided in the url
+    if 'date' not in request.args:
+        return {"error": "missing date arguement"}
+    
+    # retrieve tweets from a single day
+    date = request.args['date']
+    results = tweet_factory.tweets_by_date(date)
+
+    # retrieve results on sql success
+    if type(results) is list:
+        data = {}
+        for x in results:
+            data[x[0]] = x[1]
+        return data
+    # if the results are errors in json format
+    return results
+
+@app.route('/api/tweets/date_range', methods=['GET'])
+def get_tweets_range():
+    # check if start_date and end_date arguments were provided in url
     if 'start_date' not in request.args:
         return {"error": "missing start_date argument"}
 

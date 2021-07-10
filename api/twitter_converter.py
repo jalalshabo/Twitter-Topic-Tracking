@@ -48,13 +48,20 @@ class TweetFactory:
             return {"error": "invalid date range"}
         
         # retrieve tweets in date range
-
-        print(f"start_date: {start_date}")
-        print(f"end_date: {end_date}")
-
-        # TODO: error handling 
-        # TODO: add a fetchquery data function to DATABASE
-        query = f'SELECT tweetId, tweetText FROM tweets_table WHERE tweetDate BETWEE {start_date} and \'{end_date} 23:59:59\''
+        query = f'SELECT tweetId, tweetText FROM tweets_table WHERE tweetDate BETWEEN {start_date} and \'{end_date} 23:59:59\''
         data = self.db.run_query(query)
         return data
+    
+    def tweets_by_date(self, date):
+        """
+        on success: json of tweets in date from db
+        on failure: json with error message
+        """
+        # validate input date
+        if (not self.is_validate_date(date)):
+            return {"error": "invalid date"}
         
+        # retrieve tweeets for date
+        query =  f'SELECT tweetId, tweetText FROM tweets_table WHERE tweetDate BETWEEN \'{date} 00:00:00\' and \'{date} 23:59:59\''
+        data = self.db.run_query(query)
+        return data
