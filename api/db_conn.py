@@ -29,6 +29,7 @@ class Database:
     Methods
     -------
     get_connection()
+    run_query()
     """
     def __init__(self):
         self.config = dotenv_values(".env")
@@ -60,4 +61,22 @@ class Database:
             return self.db_connection
         else:
             return self.db_connection
+    
+    def run_query(self, query):
+        """
+            on success: python list of query results
+            on failure: {"error": "error message"}
+        """
+        # get db connection
+        db_cursor = self.get_connection().cursor()
+
+        # execute query
+        try:
+            db_cursor.execute(query)
+            db_cursor.commit()
+            return db_cursor.fetchall()
+        except mysql.connector.Error as error:
+            return {"error": error.msg}
+
+
             

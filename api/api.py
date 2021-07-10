@@ -21,10 +21,15 @@ def get_current_time():
     start_date = request.args['start_date']
     end_date = request.args['end_date']
     results = tweet_factory.tweets_by_date_range(start_date, end_date)
-    data = {}
-    for x in results:
-        data[x[0]] = x[1]
-    return data
+
+    # retrieve results on sql success
+    if type(results) is list:
+        data = {}
+        for x in results:
+            data[x[0]] = x[1]
+        return data
+    # if the results are errors in json format
+    return results
 
 
 @app.route('/add_sqlstatement', methods=['POST'])

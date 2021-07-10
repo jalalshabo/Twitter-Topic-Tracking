@@ -54,9 +54,7 @@ class TweetFactory:
 
         # TODO: error handling 
         # TODO: add a fetchquery data function to DATABASE
-        query = f'SELECT tweetId, tweetText FROM tweets_table WHERE tweetDate BETWEEN {start_date} and \'{end_date} 23:59:59\''
-        dbcursor = self.db.get_connection().cursor()
-        dbcursor.execute(query)
-        data = dbcursor.fetchall()
+        query = f'SELECT tweetId, tweetText FROM tweets_table WHERE tweetDate BETWEE {start_date} and \'{end_date} 23:59:59\''
+        data = self.db.run_query(query)
         return data
         
