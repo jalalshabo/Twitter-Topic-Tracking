@@ -1,5 +1,6 @@
 import mysql.connector, json, pprint
 from dotenv import dotenv_values
+from datetime import datetime
 
 #retrieve config values
 config = dotenv_values(".env")
@@ -14,13 +15,14 @@ db_connection = mysql.connector.connect(
 
 # select tweet id and text information
 mycurse = db_connection.cursor()
-mycurse.execute("SELECT tweetId, tweetText FROM tweets_table")
+# mycurse.execute("SELECT tweetId, tweetText FROM tweets_table")
+mycurse.execute("SELECT tweetId, tweetDate FROM tweets_table ")
 myresult = mycurse.fetchall()
 
 # reformat data to python dict
 data = {}
 for x in myresult:
-    data[x[0]] = x[1]
+    data[x[0]] = x[1].strftime("%Y-%m-%d")
 
 # export data to .json file
 with open('all_tweets.json', 'w') as json_file:
