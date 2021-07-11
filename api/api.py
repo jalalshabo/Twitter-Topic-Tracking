@@ -28,10 +28,7 @@ def get_tweets_location():
 
     # retrieve results on sql success
     if type(results) is list:
-        data = {}
-        for x in results:
-            data[x[0]] = x[1]
-        return data
+        return jsonify(results)
     # if the results are errors in json format
     return results
 
@@ -55,10 +52,7 @@ def get_tweets_user():
 
     # retrieve results on sql success
     if type(results) is list:
-        data = {}
-        for x in results:
-            data[x[0]] = x[1]
-        return data
+        return jsonify(results)
     # if the results are errors in json format
     return results
 
@@ -75,10 +69,7 @@ def get_tweets_single():
 
     # retrieve results on sql success
     if type(results) is list:
-        data = {}
-        for x in results:
-            data[x[0]] = x[1]
-        return data
+        return jsonify(results)
     # if the results are errors in json format
     return results
 
@@ -98,10 +89,7 @@ def get_tweets_range():
 
     # retrieve results on sql success
     if type(results) is list:
-        data = {}
-        for x in results:
-            data[x[0]] = x[1]
-        return data
+        return jsonify(results)
     # if the results are errors in json format
     return results
 

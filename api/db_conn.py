@@ -75,7 +75,13 @@ class Database:
             results = db_cursor.fetchall()
             conn.commit()
             db_cursor.close()
-            return results
+
+            final_result = [str(i) for i in results]
+
+            final_result = [string.replace("(", "") for string in final_result]
+            final_result = [string.replace(")", "") for string in final_result]
+            final_result = [string.replace("'", "") for string in final_result]
+            return final_result
         except mysql.connector.Error as error:
             return {"error": error.msg}
 
