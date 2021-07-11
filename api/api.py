@@ -16,7 +16,7 @@ def get_tweets_single():
     
     # retrieve tweets from a single day
     date = request.args['date']
-    results = tweet_factory.tweets_by_date(date)
+    results = tweet_factory.tweets_by_date_range(date, date)
 
     # retrieve results on sql success
     if type(results) is list:
