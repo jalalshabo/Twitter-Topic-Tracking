@@ -8,6 +8,33 @@ tweet_factory = TweetFactory()
 
 sqlstatement = ''
 
+@app.route('/api/tweets/location', methods=['GET'])
+def get_tweets_location():
+    # check if city, start_date and end_date arguments are provided in url
+    if 'city' not in request.args:
+        return {"error": "missing city argument"}
+    
+    if 'start_date' not in request.args:
+        return {"error": "missing start_date argument"}
+
+    if 'end_date' not in request.args:
+        return {"error": "missing end_date argument"}
+    
+    # retrieve tweets for city
+    city = request.args['city']
+    start_date = request.args['start_date']
+    end_date = request.args['end_date']
+    results = tweet_factory.tweets_by_location(city, start_date, end_date)
+
+    # retrieve results on sql success
+    if type(results) is list:
+        data = {}
+        for x in results:
+            data[x[0]] = x[1]
+        return data
+    # if the results are errors in json format
+    return results
+
 @app.route('/api/tweets/user', methods=['GET'])
 def get_tweets_user():
     # check if user_id, start_date and end_date arguments are provided in url
