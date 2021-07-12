@@ -49,7 +49,7 @@ class TweetFactory:
             return {"error": "invalid date range"}
         
         # retrieve tweets in date range
-        query = f'SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'{start_date} 00:00:00\' and \'{end_date} 23:59:59\''
+        query = f'SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'{start_date} 00:00:00\' and \'{end_date} 23:59:59\' LIMIT 10000'
         data = self.db.run_query(query)
         return data
 

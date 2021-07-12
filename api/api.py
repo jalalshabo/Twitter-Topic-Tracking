@@ -1,10 +1,17 @@
 import time
 from flask import Flask, jsonify, request
 from twitter_converter import TweetFactory
+from lda import Lda
+# Enable logging for gensim - optional
+import logging
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.ERROR)
 
+import warnings
+warnings.filterwarnings("ignore",category=DeprecationWarning)
 
 app = Flask(__name__)
 tweet_factory = TweetFactory()
+lda_factory = Lda()
 
 sqlstatement = ''
 
@@ -52,6 +59,7 @@ def get_tweets_user():
 
     # retrieve results on sql success
     if type(results) is list:
+        print(results)
         return jsonify(results)
     # if the results are errors in json format
     return results
@@ -89,6 +97,7 @@ def get_tweets_range():
 
     # retrieve results on sql success
     if type(results) is list:
+        lda_factory.run_ldamodel(results)
         return jsonify(results)
     # if the results are errors in json format
     return results
