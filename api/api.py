@@ -97,7 +97,7 @@ def get_tweets_range():
 
     # retrieve results on sql success
     if type(results) is list:
-        lda_factory.run_ldamodel(results)
+        lda_factory.run_lda(results)
         return jsonify(results)
     # if the results are errors in json format
     return results
