@@ -7,7 +7,7 @@ from nltk.stem.wordnet import WordNetLemmatizer
 nltk.download('stopwords')
 from nltk.corpus import stopwords
 
-import re
+import re, multiprocessing
 import numpy as np
 import pandas as pd
 from pprint import pprint
@@ -48,8 +48,22 @@ class Lda:
     def __init__(self):
         self.stopwords = None
         self.npl = spacy.load('en_core_web_sm')
-        self.raw_corpus = None
+        self.corpus = None
         self.processed_corpus = None
+        self.num_topics = 10
+        self.id2word = None
+        self.workers = multiprocessing.cpu_count()
+        self.chunksize = 2000
+        self.passes=50
+        self.batch=True
+        self.alpha='symmetric'
+        self.eta=None
+        self.decay=0.5
+        self.offset=1.0
+        self.eval_every=None
+        self.iterations=50
+        self.gamma_threshold=0.001
+        self.random_state=100
         pass
 
     def print_list(self,_list, msg=''):
@@ -84,7 +98,7 @@ class Lda:
         # remove words that only contain one character
         tweets = [[ token for token in tweet if len(token) > 1 ] for tweet in tweets]
         # remove stop words
-        custom_stopwords = ['amp', '&amp', '\\c200c']
+        custom_stopwords = ['amp', '&amp', '\\c200c', '\\c200d']
         self.stopwords = self.npl.Defaults.stop_words.union(custom_stopwords, stopwords.words('english'))
         tweets = [[token for token in tweet if not token in self.stopwords] for tweet in tweets]
         return tweets
@@ -94,78 +108,65 @@ class Lda:
         porter_stemmer = nltk.stem.PorterStemmer()
         return [[porter_stemmer.stem(token) for token in tweet ]for tweet in tweet_corpus]
     
-    # Lemmatize the tokenize words
+    # Lemmatize the tokenize word
     def lem_data(self, tweet_corpus):
         lemmatizer = WordNetLemmatizer()
-        return [[lemmatizer.lemmatize(token) for token in tweet] for tweet in tweet_corpus ]
+        tweets = [[lemmatizer.lemmatize(token) for token in tweet] for tweet in tweet_corpus ]
+        return tweets
 
     # run test
     def run_lda(self, tweet_corpus):
-        self.raw_corpus = tweet_corpus
-        self.processed_corpus = self.preprocess_tweets(tweet_corpus)
-        self.processed_corpus = self.tokenize(self.processed_corpus)
-        self.processed_corpus = self.remove_empty(self.processed_corpus)
-        self.processed_corpus = self.lem_data(self.processed_corpus)
+        corpus = self.preprocess_tweets(tweet_corpus)
+        corpus = self.tokenize(corpus)
+        corpus = self.remove_empty(corpus)
+        corpus = self.lem_data(corpus)
 
         #Create a dictionary representation of the documents
-        dictionary = Corpora.Dictionary(self.processed_corpus)
+        dictionary = Corpora.Dictionary(corpus)
         # filter out words that occur in less than 1 document or more than 50% of the corpus
         dictionary.filter_extremes(no_below=2, no_above=0.65)
         # create a bag-of-words representation of the corpus
-        corpus = [ dictionary.doc2bow(document) for document in self.processed_corpus]
-        # self.print_list(corpus, "\nbag of words model")
-        # pprint(dictionary.token2id)
-        # print('Number of unique tokens: %d' % len(dictionary))
-        # print('Number of documents: %d' % len(corpus))
-        # self.print_list(self.processed_corpus, "list")
+        self.corpus = [ dictionary.doc2bow(document) for document in corpus]
         ### training the LDA model
-
-        ## set training parameters
-        num_topics = 20 # desired number of topics to generate
-        chunksize = 2000 # desired number of documents to be processed at a time during the algorithm
-        passes = 100 # how often we train the model on the entire corpus
-        iterations = 200 # how many loops per document
-        eval_every = None  # Don't evaluate model perplexity, takes too much time.
-
         # make a index to word dictionary
         temp = dictionary[0] # load the dict to memory
         id_word = dictionary.id2token
 
         # singlecore implementation
         # lda_model = gensim.models.ldamodel.LdaModel(
-        #     corpus=corpus,
+        #     corpus=self.corpus,
         #     id2word=id_word,
-        #     chunksize=chunksize,
+        #     chunksize=self.chunksize,
         #     alpha='auto',
         #     eta='auto',
-        #     iterations=iterations,
-        #     num_topics=num_topics,
-        #     passes=passes,
-        #     eval_every=eval_every,
+        #     iterations=self.iterations,
+        #     num_topics=self.num_topics,
+        #     passes=self.passes,
+        #     eval_every=self.eval_every,
         #     update_every=1,
         #     random_state=100,
         #     per_word_topics=True
         # )
         # mulitcore implementation
         lda_model = gensim.models.LdaMulticore(
-            corpus=corpus,
-            num_topics=10,
+            corpus=self.corpus,
+            num_topics=self.num_topics,
             id2word=id_word,
-            workers=None,
-            chunksize=chunksize,
-            passes=passes,
-            batch=False,
-            alpha='symmetric',
-            eta=None,
-            decay=0.5,
-            offset=1.0,
-            eval_every=eval_every,
-            iterations=iterations,
-            gamma_threshold=0.001,
-            random_state=None
+            workers=self.workers,
+            chunksize=self.chunksize,
+            passes=self.passes,
+            batch=self.batch,
+            alpha=self.alpha,
+            eta=self.eta,
+            decay=self.decay,
+            offset=self.offset,
+            eval_every=self.eval_every,
+            iterations=self.iterations,
+            gamma_threshold=self.gamma_threshold,
+            random_state=self.random_state
         )
         output_name = 'output'
-        vis_model = pyLDAvis.gensim_models.prepare(lda_model, corpus, dictionary)
+        vis_model = pyLDAvis.gensim_models.prepare(lda_model, self.corpus, dictionary)
         pyLDAvis.save_html(vis_model, f'{output_name}.html')
 
         return tweet_corpus
