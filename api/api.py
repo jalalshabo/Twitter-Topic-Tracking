@@ -1,15 +1,17 @@
-import time
-from flask import Flask, jsonify, request
-from twitter_converter import TweetFactory
-from lda import Lda
-# Enable logging for gensim - optional
 import logging
-logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.ERROR)
-
+logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
+# Enable logging for gensim - optional
 import warnings
 warnings.filterwarnings("ignore",category=DeprecationWarning)
 
+import time, sys
+from flask import Flask, jsonify, request
+from twitter_converter import TweetFactory
+from lda import Lda
+
+
 app = Flask(__name__)
+
 tweet_factory = TweetFactory()
 lda_factory = Lda()
 
