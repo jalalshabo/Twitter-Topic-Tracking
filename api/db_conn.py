@@ -82,7 +82,7 @@ class Database:
             final_result = [string.replace(")", "") for string in final_result]
             final_result = [string.replace("'", "") for string in final_result]
             return final_result
-        except mysql.connector.Error as error:
+        except Exception as error:
             return {"error": error.msg}
 
 

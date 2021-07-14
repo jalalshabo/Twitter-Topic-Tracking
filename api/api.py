@@ -37,6 +37,8 @@ def get_tweets_location():
 
     # retrieve results on sql success
     if type(results) is list:
+        infered_model = lda_factory.infer_topics(results)
+        lda_factory.visualize_model(infered_model)
         return jsonify(results)
     # if the results are errors in json format
     return results
@@ -99,8 +101,9 @@ def get_tweets_range():
 
     # retrieve results on sql success
     if type(results) is list:
-        lda_factory.run_lda(results)
-        return jsonify(results)
+        proceesed_corpus = lda_factory.train_lda(results)
+        lda_factory.visualize_model(lda_factory.corpus)
+        return jsonify(proceesed_corpus)
     # if the results are errors in json format
     return results
 
