@@ -39,7 +39,7 @@ def get_tweets_location():
     if type(results) is list:
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
-        #lda_factory.visualize_model(lda_factory.corpus)
+        lda_factory.visualize_model(lda_factory.corpus)
         return proceesed_corpus
     # if the results are errors in json format
     return results
@@ -66,7 +66,7 @@ def get_tweets_user():
     if type(results) is list:
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
-        #lda_factory.visualize_model(lda_factory.corpus)
+        lda_factory.visualize_model(lda_factory.corpus)
         return proceesed_corpus
     # if the results are errors in json format
     return results
@@ -86,7 +86,7 @@ def get_tweets_single():
     if type(results) is list:
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
-        #lda_factory.visualize_model(lda_factory.corpus)
+        lda_factory.visualize_model(lda_factory.corpus)
         return proceesed_corpus
     # if the results are errors in json format
     return results
