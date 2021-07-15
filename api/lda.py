@@ -17,7 +17,7 @@ from pprint import pprint
 import gensim
 import gensim.corpora as Corpora
 from gensim.utils import simple_preprocess
-from gensim.models import CoherenceModel
+from gensim.models import CoherenceModel, Phrases
 
 # preprocess
 from preprocessor.api import clean
@@ -55,14 +55,14 @@ class Lda:
         self.num_topics = 10                            # number of topics to be extracted
         self.id2word = None                             # mapping from {integer} to word {string}
         self.workers = 4                                # number of extra processes to use for parallel execution
-        self.chunksize = 2000                           # how many documents are processed at a time
+        self.chunksize = 3000                           # how many documents are processed at a time
         self.passes=20                                  # how often we train the model on the entire corpus
         self.batch=True                                 # default value
         self.alpha='symmetric'                          # hyperparameter that affects sparcity of the document-topic (theta) and topic-word (lambda) distributions
         self.eta=None                                   # default value
         self.decay=0.5                                  # default value
         self.offset=1.0                                 # default value
-        self.eval_every=1                               # Calculate and log perplexity , None speeds up the algorithm
+        self.eval_every=None                               # Calculate and log perplexity , None speeds up the algorithm
         self.iterations=400                             # how often we repeat a loop for each document
         self.gamma_threshold=0.001                      # default value
         self.random_state=100                           # default value
@@ -115,19 +115,19 @@ class Lda:
         tweets = [[ token for token in tweet if len(token) > 1 ] for tweet in tweets]
         # remove stop words
         custom_stopwords = ['amp', '&amp', '\\c200c', '\\c200d', 'lol', 'able', 'abst', 'accordance', 'according', 'accodringly', 'act', 'actually',
-        'added', 'adj', 'affected', 'affecting', 'affects', 'ah', 'all', 'almost', 'announce', 'anybody', 'anymore', 'apparently', 'approximately',
+        'added', 'aint', 'adj', 'affected', 'affecting', 'affects', 'ah', 'all', 'almost', 'announce', 'anybody', 'anymore', 'apparently', 'approximately',
         'arent', 'arise', 'aside', 'ask', 'asking', 'at', 'available', 'away','awful', 'came', 'couldnt', 'cant', 'cause', 'causes', 'certain', 'certainly',
-        'co', 'com', 'come', 'comes', 'contain', 'containing', 'contains', 'different', 'downwards', 'ed', 'edu', 'effect', 'end', 'ending', 'especially',
+        'co', 'com', 'come', 'comes', 'contain', 'containing', 'contains', 'different', 'dont', 'downwards', 'ed', 'edu', 'effect', 'end', 'ending', 'especially',
         'et', 'etc', 'everybody', 'ex', 'except', 'far', 'ff', 'fifth', 'fix','followed', 'following', 'follows', 'forth', 'found', 'futhermore',
-        'gave', 'gets', 'getting', 'given', 'gives', 'giving', 'goes', 'gone', 'got', 'gotten', 'hadnt', 'happens', 'hardly', 'hence', 'id', 'ie', 'ill', 'indeed',
+        'gave', 'gets', 'getting', 'given', 'gives', 'giving', 'goes', 'gone', 'gt', 'got', 'gotten', 'hadnt', 'happens', 'hardly', 'hence', 'id', 'ie', 'ill', 'indeed',
         'instead', 'important', 'importance', 'immediately', 'immediate', 'inc', 'into', 'ive', 'im', 'keeps', 'kept', 'kg', 'km', 'know', 'known', 'knows',
-        'largely', 'lest', 'let', 'lets', 'like', 'lately', 'like', 'liked', 'likely', 'look', 'ltd', 'maybe', 'mean', 'means', 'meantime', 'meanwhile', 'merely', 'mg',
+        'largely', 'lest', 'let', 'lets', 'like', 'lately', 'like', 'liked', 'likely', 'look', 'ltd', 'lt', 'maybe', 'mean', 'means', 'meantime', 'meanwhile', 'merely', 'mg',
         'mr', 'mrs', 'na', 'nay', 'near', 'nearly', 'necessary', 'necessarily', 'need', 'needs', 'new', 'ninety', 'non', 'normally', 'nos', 'noted',
         'obtain', 'obtained', 'obviously', 'oh', 'ok', 'okay', 'old', 'outside', 'overall', 'page', 'pages', 'particular', 'particularly', 'placed',
         'plus', 'poorly', 'possible', 'possibly', 'potentially', 'pp', 'previously', 'primarily', 'promptly', 'proud', 'provides', 'que', 'quickly', 'quite',
         'regardless', 'regards', 'related', 'right', 'said', 'saw', 'saying', 'sec', 'seeing', 'self', 'several', 'shall', 'shell', 'shouldnt', 'shouldve',
         'showed', 'shown', 'significant', 'significantly', 'similar', 'similarly', 'since', 'slightly', 'soon', 'still', 'sure', 'sup', 'such', 'stop',
-        'taken', 'taking', 'tell', 'tends', 'th', 'than', 'thank', 'thanks', 'thatll', 'thatve', 'therell', 'theres', 'theyd', 'theyll', 'theyre', 'theyd', 
+        'taken', 'taking', 'tell', 'tends', 'th', 'than','thats', 'thank', 'thanks', 'thatll', 'thatve', 'therell', 'theres', 'theyd', 'theyll', 'theyre', 'theyd', 
         'think', 'this', 'those', 'thru', 'thus', 'til', 'tip', 'took', 'toward', 'towards', 'tried', 'tries', 'try', 'trying', 'twice', 'two', 'un', 'unfortunately',
         'unlike','unlikely', 'until', 'unto', 'up', 'upon', 'ups', 'useful', 'usefully', 'usefulness', 'us', 'using', 'uses', 'usually', 'vis', 'vol',
         'vols', 'vs', 'want', 'wants', 'way', 'wed', 'well', 'whats', 'when', 'whence', 'whos', 'whose', 'widely', 'wouldnt', 'www', 'yes', 'youd', 'youll', 'youre',
@@ -155,6 +155,18 @@ class Lda:
         # create dictionary for new corpus
         temp_corpus = [ self.dictionary.doc2bow(document) for document in corpus]
         return self.trained_model[temp_corpus]
+    
+    # calculate bigrams
+    def add_bigrams(self, tweet_corpus):
+        corpus = tweet_corpus
+        bigrams = Phrases(corpus, min_count=20)
+        for idx in range(len(corpus)):
+            for token in bigrams[corpus[idx]]:
+                if '_' in token:
+                    #Token is a bigram and add to corpus
+                    corpus[idx].append(token)
+        return corpus
+
 
     # train new corpus
     def train_lda(self, tweet_corpus):
@@ -164,6 +176,7 @@ class Lda:
         corpus = self.tokenize(corpus)
         corpus = self.remove_empty(corpus)
         corpus = self.lem_data(corpus)
+        corpus = self.add_bigrams(corpus)
 
         #Create a dictionary representation of the documents
         self.dictionary = Corpora.Dictionary(corpus)
