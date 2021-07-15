@@ -47,34 +47,41 @@ class Lda:
         run_lda(tweet_corpus)
     """
     def __init__(self):
-        self.corpus = None
-        self.processed_corpus = None
-        self.trained_model = None
-        self.dictionary = None
-        self.stopwords = stopwords.words('english')
-        self.npl = spacy.load('en_core_web_sm')
-        self.num_topics = 10
-        self.id2word = None
-        self.workers = 4
-        self.chunksize = 2000
-        self.passes=20
-        self.batch=True
-        self.alpha='symmetric'
-        self.eta=None
-        self.decay=0.5
-        self.offset=1.0
-        self.eval_every=1
-        self.iterations=400
-        self.gamma_threshold=0.001
-        self.random_state=100
+        self.corpus = None                              # collection of documents
+        self.trained_model = None                       # trained LDA model
+        self.dictionary = None                          # holds frequency counts and extra stats data about the corpus
+        self.stopwords = stopwords.words('english')     # commonly used words in the english language
+        self.npl = spacy.load('en_core_web_sm')         # more stop words
+        self.num_topics = 10                            # number of topics to be extracted
+        self.id2word = None                             # mapping from {integer} to word {string}
+        self.workers = 4                                # number of extra processes to use for parallel execution
+        self.chunksize = 2000                           # how many documents are processed at a time
+        self.passes=20                                  # how often we train the model on the entire corpus
+        self.batch=True                                 # default value
+        self.alpha='symmetric'                          # hyperparameter that affects sparcity of the document-topic (theta) and topic-word (lambda) distributions
+        self.eta=None                                   # default value
+        self.decay=0.5                                  # default value
+        self.offset=1.0                                 # default value
+        self.eval_every=1                               # Calculate and log perplexity , None speeds up the algorithm
+        self.iterations=400                             # how often we repeat a loop for each document
+        self.gamma_threshold=0.001                      # default value
+        self.random_state=100                           # default value
         pass
 
+
     def print_list(self,_list, msg=''):
+        """
+        Pretty print a python list
+        """
         if type(_list) is list:
             print("{}\n-------------------------".format(msg))
             print(*_list, sep='\n')
     
+    # visualize a trained LDA model
     def visualize_model(self, corpus):
+        """
+        Outputs an html visualization of the trained LDA model 
+        """
         output_name = 'output'
         vis_model = pyLDAvis.gensim_models.prepare(self.trained_model, corpus, self.dictionary)
         pyLDAvis.save_html(vis_model, f'{output_name}.html')
@@ -126,10 +133,8 @@ class Lda:
         'vols', 'vs', 'want', 'wants', 'way', 'wed', 'well', 'whats', 'when', 'whence', 'whos', 'whose', 'widely', 'wouldnt', 'www', 'yes', 'youd', 'youll', 'youre',
         'zero', 'z']
         self.stopwords = self.npl.Defaults.stop_words.union(custom_stopwords, self.stopwords)
-        print(sorted(self.stopwords))
-        print(type(self.stopwords))
-        tweets = [[token for token in tweet if not token in self.stopwords] for tweet in tweets]
-        return tweets
+        return [[token for token in tweet if not token in self.stopwords] for tweet in tweets]
+        
 
     # stem tokenized words using NLTK Porter Stemmer augments the list sent to the function
     def stem_data(self, tweet_corpus):
@@ -139,8 +144,7 @@ class Lda:
     # Lemmatize the tokenize word
     def lem_data(self, tweet_corpus):
         lemmatizer = WordNetLemmatizer()
-        tweets = [[lemmatizer.lemmatize(token) for token in tweet] for tweet in tweet_corpus ]
-        return tweets
+        return [[lemmatizer.lemmatize(token) for token in tweet] for tweet in tweet_corpus ]
     
     def infer_topics(self, unseen_corpus):
         # preprocess new documents
@@ -148,12 +152,9 @@ class Lda:
         corpus = self.tokenize(corpus)
         corpus = self.remove_empty(corpus)
         corpus = self.lem_data(corpus)
-
+        # create dictionary for new corpus
         temp_corpus = [ self.dictionary.doc2bow(document) for document in corpus]
-        temp = self.trained_model[temp_corpus]
-        for topic in temp:
-            print(topic)
-        return temp
+        return self.trained_model[temp_corpus]
 
     # train new corpus
     def train_lda(self, tweet_corpus):
