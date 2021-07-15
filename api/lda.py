@@ -180,8 +180,8 @@ class Lda:
 
         #Create a dictionary representation of the documents
         self.dictionary = Corpora.Dictionary(corpus)
-        # filter out words that occur in less than 1 document or more than 50% of the corpus
-        # self.dictionary.filter_extremes(no_below=2, no_above=0.65)
+        # filter out words that occur in less than 1 document or more than 70% of the corpus
+        self.dictionary.filter_extremes(no_below=2, no_above=0.7)
         # # create a bag-of-words representation of the corpus
         self.corpus = [ self.dictionary.doc2bow(document) for document in corpus]
         ### training the LDA model
