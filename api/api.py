@@ -37,9 +37,10 @@ def get_tweets_location():
 
     # retrieve results on sql success
     if type(results) is list:
-        infered_model = lda_factory.infer_topics(results)
-        lda_factory.visualize_model(infered_model)
-        return jsonify(results)
+        # run lda on results from sql
+        proceesed_corpus = lda_factory.train_lda(results)
+        #lda_factory.visualize_model(lda_factory.corpus)
+        return proceesed_corpus
     # if the results are errors in json format
     return results
 
@@ -63,8 +64,10 @@ def get_tweets_user():
 
     # retrieve results on sql success
     if type(results) is list:
-        print(results)
-        return jsonify(results)
+        # run lda on results from sql
+        proceesed_corpus = lda_factory.train_lda(results)
+        #lda_factory.visualize_model(lda_factory.corpus)
+        return proceesed_corpus
     # if the results are errors in json format
     return results
 
@@ -81,7 +84,10 @@ def get_tweets_single():
 
     # retrieve results on sql success
     if type(results) is list:
-        return jsonify(results)
+        # run lda on results from sql
+        proceesed_corpus = lda_factory.train_lda(results)
+        #lda_factory.visualize_model(lda_factory.corpus)
+        return proceesed_corpus
     # if the results are errors in json format
     return results
 
@@ -101,9 +107,10 @@ def get_tweets_range():
 
     # retrieve results on sql success
     if type(results) is list:
+        # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
         lda_factory.visualize_model(lda_factory.corpus)
-        return jsonify(proceesed_corpus)
+        return proceesed_corpus
     # if the results are errors in json format
     return results
 
