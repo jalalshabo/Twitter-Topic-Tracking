@@ -114,23 +114,23 @@ class Lda:
         # remove words that only contain one character
         tweets = [[ token for token in tweet if len(token) > 1 ] for tweet in tweets]
         # remove stop words
-        custom_stopwords = ['amp', '&amp', '\\c200c', '\\c200d', 'lol', 'able', 'abst', 'accordance', 'according', 'accodringly', 'act', 'actually',
+        custom_stopwords = ['amp', '&amp', '\\c200c', '\\c200d', 'u200d','lol', 'able', 'abst', 'accordance', 'according', 'accodringly', 'act', 'actually',
         'added', 'aint', 'adj', 'affected', 'affecting', 'affects', 'ah', 'all', 'almost', 'announce', 'anybody', 'anymore', 'apparently', 'approximately',
         'arent', 'arise', 'aside', 'ask', 'asking', 'at', 'available', 'away','awful', 'came', 'couldnt', 'cant', 'cause', 'causes', 'certain', 'certainly',
-        'co', 'com', 'come', 'comes', 'contain', 'containing', 'contains', 'different', 'dont', 'downwards', 'ed', 'edu', 'effect', 'end', 'ending', 'especially',
+        'co', 'com', 'come', 'comes', 'contain', 'containing', 'contains', 'different', 'dont', 'didnt','downwards', 'ed', 'edu', 'effect', 'end', 'ending', 'especially',
         'et', 'etc', 'everybody', 'ex', 'except', 'far', 'ff', 'fifth', 'fix','followed', 'following', 'follows', 'forth', 'found', 'futhermore',
         'gave', 'gets', 'getting', 'given', 'gives', 'giving', 'goes', 'gone', 'gt', 'got', 'gotten', 'hadnt', 'happens', 'hardly', 'hence', 'id', 'ie', 'ill', 'indeed',
         'instead', 'important', 'importance', 'immediately', 'immediate', 'inc', 'into', 'ive', 'im', 'keeps', 'kept', 'kg', 'km', 'know', 'known', 'knows',
         'largely', 'lest', 'let', 'lets', 'like', 'lately', 'like', 'liked', 'likely', 'look', 'ltd', 'lt', 'maybe', 'mean', 'means', 'meantime', 'meanwhile', 'merely', 'mg',
         'mr', 'mrs', 'na', 'nay', 'near', 'nearly', 'necessary', 'necessarily', 'need', 'needs', 'new', 'ninety', 'non', 'normally', 'nos', 'noted',
-        'obtain', 'obtained', 'obviously', 'oh', 'ok', 'okay', 'old', 'outside', 'overall', 'page', 'pages', 'particular', 'particularly', 'placed',
+        'obtain', 'obtained', 'omg' ,'obviously', 'oh', 'ok', 'okay', 'old', 'outside', 'overall', 'page', 'pages', 'particular', 'particularly', 'placed',
         'plus', 'poorly', 'possible', 'possibly', 'potentially', 'pp', 'previously', 'primarily', 'promptly', 'proud', 'provides', 'que', 'quickly', 'quite',
         'regardless', 'regards', 'related', 'right', 'said', 'saw', 'saying', 'sec', 'seeing', 'self', 'several', 'shall', 'shell', 'shouldnt', 'shouldve',
         'showed', 'shown', 'significant', 'significantly', 'similar', 'similarly', 'since', 'slightly', 'soon', 'still', 'sure', 'sup', 'such', 'stop',
         'taken', 'taking', 'tell', 'tends', 'th', 'than','thats', 'thank', 'thanks', 'thatll', 'thatve', 'therell', 'theres', 'theyd', 'theyll', 'theyre', 'theyd', 
         'think', 'this', 'those', 'thru', 'thus', 'til', 'tip', 'took', 'toward', 'towards', 'tried', 'tries', 'try', 'trying', 'twice', 'two', 'un', 'unfortunately',
         'unlike','unlikely', 'until', 'unto', 'up', 'upon', 'ups', 'useful', 'usefully', 'usefulness', 'us', 'using', 'uses', 'usually', 'vis', 'vol',
-        'vols', 'vs', 'want', 'wants', 'way', 'wed', 'well', 'whats', 'when', 'whence', 'whos', 'whose', 'widely', 'wouldnt', 'www', 'yes', 'youd', 'youll', 'youre',
+        'vols', 'vs', 'want', 'wants', 'way', 'wed', 'well', 'whats', 'when', 'whence', 'whos', 'whose', 'widely', 'wouldnt', 'www', 'yall', 'yes', 'youd', 'youll', 'youre',
         'zero', 'z']
         self.stopwords = self.npl.Defaults.stop_words.union(custom_stopwords, self.stopwords)
         return [[token for token in tweet if not token in self.stopwords] for tweet in tweets]
@@ -167,9 +167,9 @@ class Lda:
                     corpus[idx].append(token)
         return corpus
 
-
     # train new corpus
     def train_lda(self, tweet_corpus):
+
         # self.print_list(tweet_corpus, "before preprocess")
         # preprocess tweet_corpus 
         corpus = self.preprocess_tweets(tweet_corpus)
@@ -181,12 +181,12 @@ class Lda:
         #Create a dictionary representation of the documents
         self.dictionary = Corpora.Dictionary(corpus)
         # filter out words that occur in less than 1 document or more than 70% of the corpus
-        self.dictionary.filter_extremes(no_below=2, no_above=0.7)
+        #self.dictionary.filter_extremes(no_below=2, no_above=0.7)
         # # create a bag-of-words representation of the corpus
         self.corpus = [ self.dictionary.doc2bow(document) for document in corpus]
         ### training the LDA model
         # make a index to word dictionary
-        temp = self.dictionary[0] # load the dict to memory
+        self.dictionary[0] # load the dict to memory
         id_word = self.dictionary.id2token
 
         # singlecore implementation
@@ -222,5 +222,26 @@ class Lda:
             gamma_threshold=self.gamma_threshold,
             random_state=self.random_state
         )
-        return corpus
+        return self.get_topics()
 
+    # get topics
+    def get_topics(self):
+        """
+            Returns a json object in format
+            {
+                "topic_id": {
+                    "word" : "probability",
+                },
+            }
+        """
+        # retrieve top 10 words for each topic
+        topics = self.trained_model.show_topics(num_topics=self.num_topics, num_words=10, formatted=False)
+        # format each topic into json objects
+        topics_json_formatted = {}
+        for topic in topics:
+            words = {}
+            for word in topic[1]:
+                words[word[0]] = str(word[1])
+            topics_json_formatted[topic[0]] = words
+            
+        return topics_json_formatted
