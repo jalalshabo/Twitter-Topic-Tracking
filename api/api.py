@@ -1,11 +1,11 @@
-import logging
+import logging, os
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 # Enable logging for gensim - optional
 import warnings
 warnings.filterwarnings("ignore",category=DeprecationWarning)
 
 import time, sys
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from twitter_converter import TweetFactory
 from lda import Lda
 
@@ -40,6 +40,9 @@ def get_tweets_location():
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
         lda_factory.visualize_model(lda_factory.corpus)
+
+        if (os.path.isfile('./output.html')):
+            return send_file('./output.html')
         return proceesed_corpus
     # if the results are errors in json format
     return results
@@ -67,6 +70,10 @@ def get_tweets_user():
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
         lda_factory.visualize_model(lda_factory.corpus)
+
+        if (os.path.isfile('./output.html')):
+            return send_file('./output.html')
+
         return proceesed_corpus
     # if the results are errors in json format
     return results
@@ -87,6 +94,9 @@ def get_tweets_single():
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
         lda_factory.visualize_model(lda_factory.corpus)
+
+        if (os.path.isfile('./output.html')):
+            return send_file('./output.html')
         return proceesed_corpus
     # if the results are errors in json format
     return results
@@ -110,6 +120,10 @@ def get_tweets_range():
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
         lda_factory.visualize_model(lda_factory.corpus)
+
+        if (os.path.isfile('./output.html')):
+            return send_file('./output.html')
+
         return proceesed_corpus
     # if the results are errors in json format
     return results
