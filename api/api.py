@@ -71,10 +71,11 @@ def get_tweets_user():
         proceesed_corpus = lda_factory.train_lda(results)
         lda_factory.visualize_model(lda_factory.corpus)
 
+        # checks for visualization output file
         if (os.path.isfile('./output.html')):
             return send_file('./output.html')
-
-        return proceesed_corpus
+        # if visualization fails, return top topics
+        return lda_factory.get_topics()
     # if the results are errors in json format
     return results
 
