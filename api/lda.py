@@ -56,7 +56,7 @@ class Lda:
         self.id2word = None                             # mapping from {integer} to word {string}
         self.workers = 4                                # number of extra processes to use for parallel execution
         self.chunksize = 3000                           # how many documents are processed at a time
-        self.passes=20                                  # how often we train the model on the entire corpus
+        self.passes=10                                  # how often we train the model on the entire corpus
         self.batch=True                                 # default value
         self.alpha='symmetric'                          # hyperparameter that affects sparcity of the document-topic (theta) and topic-word (lambda) distributions
         self.eta=None                                   # default value
@@ -114,7 +114,7 @@ class Lda:
         # remove words that only contain one character
         tweets = [[ token for token in tweet if len(token) > 1 ] for tweet in tweets]
         # remove stop words
-        custom_stopwords = ['amp', '&amp', '\\c200c', '\\c200d', 'u200d','lol', 'able', 'abst', 'accordance', 'according', 'accodringly', 'act', 'actually',
+        custom_stopwords = ['amp', '&amp', '\\c200c', 'u200c', '\\c200d', 'u200d','lol', 'able', 'abst', 'accordance', 'according', 'accodringly', 'act', 'actually',
         'added', 'aint', 'adj', 'affected', 'affecting', 'affects', 'ah', 'all', 'almost', 'announce', 'anybody', 'anymore', 'apparently', 'approximately',
         'arent', 'arise', 'aside', 'ask', 'asking', 'at', 'available', 'away','awful', 'came', 'couldnt', 'cant', 'cause', 'causes', 'certain', 'certainly',
         'co', 'com', 'come', 'comes', 'contain', 'containing', 'contains', 'different', 'dont', 'didnt','downwards', 'ed', 'edu', 'effect', 'end', 'ending', 'especially',
