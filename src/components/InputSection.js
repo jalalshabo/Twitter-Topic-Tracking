@@ -10,6 +10,13 @@ import './InputSection.css';
 
 function InputSection() {
 
+    const {ResultDiv} = useContext(globalContext);
+    const {ResultScript} = useContext(globalContext);
+    const {ResultLink} = useContext(globalContext);
+    const {setResultDiv} = useContext(globalContext);
+    const {setResultScript} = useContext(globalContext);
+    const {setResultLink} = useContext(globalContext);
+
     const {globalState} = useContext(globalContext);
     const {secondPage} = useContext(globalContext);
     const {buttonMessage1} = useContext(globalContext);
@@ -29,33 +36,36 @@ function InputSection() {
     const [buttonMessage2, setButtonMessage2] = useState("YYYY-MM-DD");
     const [chosenOption, setChosenOption] = useState("Overall");
 
-    const [date, setDate] = useState (new Date());
+    const [date] = useState (new Date());
     const [date1, setDate1] = useState (new Date());
 
     const [date2, setDate2] = useState (new Date());
     const isInitialMount = useRef(true);
+
+    var button1;
+    var button2;
     
     const fadebutton = useSpring({ 
-        to: {marginRight:(globalState == 1)?400:0, backgroundColor:(globalState == 1)? "#D5D5D5" : "#88AAE5" ,opacity:0.5}, 
+        to: {marginRight:(globalState === 1)?400:0, backgroundColor:(globalState === 1)? "#D5D5D5" : "#88AAE5" ,opacity:0.5}, 
         from: {opacity: 0},
-        delay:(globalState == 1)?0:300,
+        delay:(globalState === 1)?0:300,
        
         config: {duration: 1000},
       });
 
     const secondbutton = useSpring({
-        to:{opacity:(globalState == 1)?0.5: 0,marginLeft:(globalState == 1)?400: 0, backgroundColor: "#D5D5D5"},  
+        to:{opacity:(globalState === 1)?0.5: 0,marginLeft:(globalState === 1)?400: 0, backgroundColor: "#D5D5D5"},  
         from:{opacity:0,},
     });
     const enterDate1 = () => {
         setSelectDate1(true);
-        var button2 = document.getElementById("button2");
+        button2 = document.getElementById("button2");
         button2.style.display="none";
     }  
 
     const enterDate2 = () => {
         setSelectDate2(true);
-        var button1 = document.getElementById("button1");
+        button1 = document.getElementById("button1");
         button1.style.display="none";
     }  
  
@@ -82,7 +92,7 @@ function InputSection() {
 
                 setSelectDate2(false);
                 setButtonMessage2(date.toISOString().substring(0, 10));
-                var button1 = document.getElementById("button1");
+                button1 = document.getElementById("button1");
                 button1.style.display="block";
                 setDate2Selected(true);
             }  
@@ -91,7 +101,7 @@ function InputSection() {
 
                 setSelectDate2(false);
                 setButtonMessage2(date.toISOString().substring(0, 10));
-                var button1 = document.getElementById("button1");
+                button1 = document.getElementById("button1");
                 button1.style.display="block";
                 setDate2Selected(true);
             }
@@ -109,10 +119,16 @@ function InputSection() {
                 isInitialMount.current = false;
             }
             else {
-                fetch('/sqlstatement').then(response => response.json()).then( data => {
-                    console.log(data.sqlstatement);
+                fetch('/api/tweets/date_range?start_date=' + buttonMessage1 + '&end_date=' + buttonMessage2).then(response => response.json()).then( data => {
+                    console.log(data);
                     if (Submit) { 
-                        setSubMessage(data.sqlstatement);
+                        setResultDiv(data.divElement);
+                        setResultLink(data.linkElement);
+                        setResultScript(data.scriptElement);
+                        console.log(ResultDiv);
+                        console.log(ResultLink);
+                        console.log(ResultScript);
+                        setSubMessage('');
                         setMainMessage("Topic Tracking Results: ");
                         setglobalState(2);
                     }
@@ -123,15 +139,15 @@ function InputSection() {
 
     return (
         <>
-            {SelectDate1? <Calendar onChange={onChange1} value = {date} className="front-calendar"/> : <animated.button style = {fadebutton} className="button" id="button1" onClick={(globalState == 1)? enterDate1: secondPage}>{buttonMessage1}</animated.button>}
+            {SelectDate1? <Calendar onChange={onChange1} value = {date} className="front-calendar"/> : <animated.button style = {fadebutton} className="button" id="button1" onClick={(globalState === 1)? enterDate1: secondPage}>{buttonMessage1}</animated.button>}
             
-            {SelectDate2? <Calendar onChange={onChange2} value = {date} className="front-calendar" /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={(globalState == 1)?enterDate2: ''}>{buttonMessage2}</animated.button>}
+            {SelectDate2? <Calendar onChange={onChange2} value = {date} className="front-calendar" /> : <animated.button style = {secondbutton} className="button" id="button2" onClick={(globalState === 1)?enterDate2: ''}>{buttonMessage2}</animated.button>}
             <inputContext.Provider value = {{chosenOption,setChosenOption, setInputFieldValue}}>
-                { (globalState == 1) && <DropdownSection />} 
+                { (globalState === 1) && <DropdownSection />} 
      
             </inputContext.Provider>
            
-            <animated.button style = {useSpring({to:{opacity:(globalState == 1)?0.5: 0,marginTop:(globalState == 1)?700: 0, backgroundColor: "#555555", color:"#fff"}, from:{opacity:0,},})} className="button" id="submitbutton" 
+            <animated.button style = {useSpring({to:{opacity:(globalState === 1)?0.5: 0,marginTop:(globalState === 1)?700: 0, backgroundColor: "#555555", color:"#fff"}, from:{opacity:0,},})} className="button" id="submitbutton" 
                     onClick = { async () => {
                     if (Date1Selected && Date2Selected) {
                         const inputdata = {buttonMessage1, buttonMessage2, chosenOption, InputFieldValue};
@@ -147,6 +163,8 @@ function InputSection() {
                             console.log("Request was successful");
                     
                             setSubmit(true);
+
+                            
                         }
                     
                    

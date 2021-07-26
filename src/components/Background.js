@@ -8,9 +8,9 @@ function Background() {
     const {globalState} = useContext(globalContext);
     
     const transcorner = useSpring({ 
-        to: {opacity: 0.3 ,marginBottom:(globalState == 1)? 1000:0, marginRight:0, borderRight:(globalState == 1)? "1px solid #fff" :"1px solid #000"}, 
+        to: {opacity: 0.3 ,marginBottom:(globalState === 1)? 1000:0, marginRight:0, borderRight:(globalState === 1)? "1px solid #fff" :"1px solid #000"}, 
         from: {opacity: 0, marginBottom:-400, marginRight:-400},
-        delay:(globalState == 1)?0:500,
+        delay:(globalState === 1)?0:500,
         
         
         config: {mass: 1, frequency: 1, damping: 1},
@@ -18,8 +18,8 @@ function Background() {
     
 
     const datetransition = useSpring({
-        to: {opacity:(globalState == 1)? 1: 0, width:(globalState == 1)?"10%": "0%"},
-        delay: (globalState == 1)?700: 0,
+        to: {opacity:(globalState === 1)? 1: 0, width:(globalState === 1)?"10%": "0%"},
+        delay: (globalState === 1)?700: 0,
 
         config: {mass: 1, frequency: 1, damping: 2},
     });
@@ -33,8 +33,8 @@ function Background() {
       });
       
     const fadehalf = useSpring({ 
-        to: {opacity: (globalState == 1)? 1 : 0.5, marginBottom: (globalState == 1)? 800: 0}, 
-        from: {opacity: (globalState == 1)? 0.5:0, marginBottom:0},
+        to: {opacity: (globalState === 1)? 1 : 0.5, marginBottom: (globalState === 1)? 800: 0}, 
+        from: {opacity: (globalState === 1)? 0.5:0, marginBottom:0},
      
         
         config: {mass: 1, frequency: 1, damping: 1},

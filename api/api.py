@@ -115,7 +115,7 @@ def get_tweets_range():
     start_date = request.args['start_date']
     end_date = request.args['end_date']
     results = tweet_factory.tweets_by_date_range(start_date, end_date)
-
+    
     # retrieve results on sql success
     if type(results) is list:
         # run lda on results from sql

@@ -12,14 +12,13 @@ function DropdownSection(props) {
     const {chosenOption,setChosenOption} = useContext(inputContext);
     const {inputFieldValue,setInputFieldValue} = useContext(inputContext);
     const dropdowntransition = useSpring({
-        to:{opacity:(globalState == 1)?0.7: 0,marginTop:(globalState == 1)?200: 0, backgroundColor: "#D5D5D5"},
+        to:{opacity:(globalState === 1)?0.7: 0,marginTop:(globalState === 1)?200: 0, backgroundColor: "#D5D5D5"},
         from:{opacity:0,},
     })
 
     const [open, setOpen] = useState(false);
     const [InputField, setInputField] = useState(false);
-    const [address,setAddress] = useState('');
-
+ 
     function changeDropdownTarget(option) {
      
         setChosenOption(option);
@@ -30,7 +29,7 @@ function DropdownSection(props) {
 
         function DropdownItem(props) {
             return (
-                <a href="#" className="menu-item" onClick = {() =>  changeDropdownTarget(props.children)}>
+                <a  className="menu-item" onClick = {() =>  changeDropdownTarget(props.children)}>
                     {props.children}
                 </a>
             );
@@ -46,7 +45,7 @@ function DropdownSection(props) {
     }
 
     useEffect(() => {
-        if (chosenOption == "User" || chosenOption ==  "Location") {
+        if (chosenOption === "User" || chosenOption ===  "Location") {
             setInputField(true);
         }
         else {
@@ -57,9 +56,9 @@ function DropdownSection(props) {
     return (
         <>
          
-            <animated.a style={dropdowntransition} className="dropdownbutton" onClick = {() => setOpen(!open)}>
+            <animated.div style={dropdowntransition} className="dropdownbutton" onClick = {() => setOpen(!open)}>
                      {chosenOption} {open? <i class="fas fa-caret-up"></i> : <i class="fas fa-caret-down"></i>}
-            </animated.a>
+            </animated.div>
 
             {InputField && 
             

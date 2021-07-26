@@ -14,11 +14,13 @@ import {messageContext} from './context/messageContext';
 import {transitionContext} from './context/transitionContext';
 
 function App() {
-  const [currentTime, setCurrentTime] = useState(0)
 
   /* Variable section that contains all the states that need to be tracked */
   const [globalState, setglobalState] = useState(0);
 
+  const [ResultDiv, setResultDiv] = useState('');
+  const [ResultLink, setResultLink] = useState('');
+  const [ResultScript, setResultScript] = useState('');
   /* This is a very roundabout way of deleting a button, not efficient at all */
   const [buttonMessage1,setButtonMessage1] = useState("Let's begin");
 
@@ -32,8 +34,8 @@ function App() {
 
   /* Global Spring Section*/
   const fade = useSpring({ 
-    to: {opacity: (globalState == 1)? 0 : 1}, 
-    from: {opacity: (globalState == 1)? 1 : 0},
+    to: {opacity: (globalState === 1)? 0 : 1}, 
+    from: {opacity: (globalState === 1)? 1 : 0},
     delay:globalState?0:300,
     
     config: {duration: 1000},
@@ -42,11 +44,7 @@ function App() {
   
 
   /* This section will contain all the functional data that is being pulled from the python file */
-  useEffect(() => {
-    fetch('/time').then(response => response.json()).then(data => {
-      console.log(data.time);
-    });
-  }, []);
+
 
   /* This section is for all the custom functions that need to be defined */
   const secondPage = () => {
@@ -63,7 +61,7 @@ function App() {
   /* The render section */
   return (
     <div className= "App" style={{backgroundColor: bgColor, color: Color}}>
-      <globalContext.Provider value = {{globalState, setglobalState, secondPage, buttonMessage1, setButtonMessage1}}>
+      <globalContext.Provider value = {{globalState, setglobalState, secondPage, buttonMessage1, setButtonMessage1, ResultDiv, setResultDiv, ResultLink, setResultLink, ResultScript, setResultScript}}>
         <messageContext.Provider value = {{TitleMessage, SubMessage,setSubMessage, setMainMessage}}>
         {/*Pure background elements*/}
 
@@ -76,8 +74,8 @@ function App() {
       
             {/*functional component*/}
 
-            {(globalState !=2) && <InputSection />}
-            {(globalState == 2 ) && <ResultPage />}
+            {(globalState !== 2) && <InputSection />}
+            {(globalState === 2 ) && <ResultPage />}
         </transitionContext.Provider>
         </messageContext.Provider>
       </globalContext.Provider>
