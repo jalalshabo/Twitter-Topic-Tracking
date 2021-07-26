@@ -42,7 +42,7 @@ def get_tweets_location():
         lda_factory.visualize_model(lda_factory.corpus)
 
         if (os.path.isfile('./output.html')):
-            return send_file('./output.html')
+            return lda_factory.get_output_json()
         return proceesed_corpus
     # if the results are errors in json format
     return results
@@ -73,12 +73,11 @@ def get_tweets_user():
 
         # checks for visualization output file
         if (os.path.isfile('./output.html')):
-            return send_file('./output.html')
+            return lda_factory.get_output_json()
         # if visualization fails, return top topics
         return lda_factory.get_topics()
     # if the results are errors in json format
     return results
-
 
 @app.route('/api/tweets/single_date', methods=['GET'])
 def get_tweets_single():
@@ -97,7 +96,8 @@ def get_tweets_single():
         lda_factory.visualize_model(lda_factory.corpus)
 
         if (os.path.isfile('./output.html')):
-            return send_file('./output.html')
+            return lda_factory.get_output_json()
+
         return proceesed_corpus
     # if the results are errors in json format
     return results
@@ -123,7 +123,7 @@ def get_tweets_range():
         lda_factory.visualize_model(lda_factory.corpus)
 
         if (os.path.isfile('./output.html')):
-            return send_file('./output.html')
+            return lda_factory.get_output_json()
 
         return proceesed_corpus
     # if the results are errors in json format

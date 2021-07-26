@@ -1,4 +1,4 @@
-from os import replace
+from os import replace, path
 from pprint import pprint
 from gensim.corpora import dictionary
 
@@ -245,3 +245,25 @@ class Lda:
             topics_json_formatted[topic[0]] = words
             
         return topics_json_formatted
+    
+    # format output.html and return json version
+    def get_output_json(self):
+        # read output file
+
+        file = open("output.html", "r")
+        data = ""
+        for line in file:
+            data = data + line
+        # extract elements
+        link_element = re.search("<link.*>", data).group()
+        temp = re.search("<div.*</div>", data)
+        div_element = temp.group()
+        script_element = data[temp.end() + 1: ]
+        # return json
+        return_object = {
+            "linkElement": link_element,
+            "divElement" : div_element,
+            "scriptElement" : script_element
+        }
+
+        return return_object
