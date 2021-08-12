@@ -29,7 +29,7 @@ function DropdownSection(props) {
 
         function DropdownItem(props) {
             return (
-                <a  className="menu-item" onClick = {() =>  changeDropdownTarget(props.children)}>
+                <a className="menu-item" onClick = {() =>  changeDropdownTarget(props.children)}>
                     {props.children}
                 </a>
             );

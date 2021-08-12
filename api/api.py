@@ -123,7 +123,9 @@ def get_tweets_range():
         lda_factory.visualize_model(lda_factory.corpus)
 
         if (os.path.isfile('./output.html')):
-            return lda_factory.get_output_json()
+            response = jsonify(lda_factory.get_output_json())
+            #response.headers.add('Access-Control-Allow-Origin', '*')
+            return response
 
         return proceesed_corpus
     # if the results are errors in json format

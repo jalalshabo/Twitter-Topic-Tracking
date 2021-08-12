@@ -3,7 +3,7 @@ import React, {useContext} from 'react'
 import './ResultPage.css';
 import { globalContext } from '../context/globalContext';
 function ResultPage() {
-    const rand = () => Math.round(Math.random() * 20 - 10); 
+    //const rand = () => Math.round(Math.random() * 20 - 10); 
 
     const {ResultDiv} = useContext(globalContext);
     const {ResultScript} = useContext(globalContext);

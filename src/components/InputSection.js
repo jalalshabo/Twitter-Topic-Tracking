@@ -135,7 +135,7 @@ function InputSection() {
                     
                 });
             }
-    });
+    },[Submit]);
 
     return (
         <>
@@ -167,7 +167,6 @@ function InputSection() {
                             
                         }
                     
-                   
                         console.log(Submit);
                     }
                     else {
