@@ -120,14 +120,15 @@ def get_tweets_range():
     if type(results) is list:
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
-        lda_factory.visualize_model(lda_factory.corpus)
-
-        if (os.path.isfile('./output.html')):
-            response = jsonify(lda_factory.get_output_json())
-            #response.headers.add('Access-Control-Allow-Origin', '*')
-            return response
-
-        return proceesed_corpus
+        # lda_factory.visualize_model(lda_factory.corpus)
+    
+        # if (os.path.isfile('./output.html')):
+        #     response = jsonify(lda_factory.get_output_json())
+        #     #response.headers.add('Access-Control-Allow-Origin', '*')
+        #     return response
+        response = jsonify(lda_factory.get_topics())
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     # if the results are errors in json format
     return results
 
