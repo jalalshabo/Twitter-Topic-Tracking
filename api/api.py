@@ -39,11 +39,14 @@ def get_tweets_location():
     if type(results) is list:
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
-        lda_factory.visualize_model(lda_factory.corpus)
+        # lda_factory.visualize_model(lda_factory.corpus)
 
-        if (os.path.isfile('./output.html')):
-            return lda_factory.get_output_json()
-        return proceesed_corpus
+        # if (os.path.isfile('./output.html')):
+        #     return lda_factory.get_output_json()
+        # return proceesed_corpus
+        response = jsonify(lda_factory.get_topics())
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     # if the results are errors in json format
     return results
 
@@ -69,13 +72,16 @@ def get_tweets_user():
     if type(results) is list:
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
-        lda_factory.visualize_model(lda_factory.corpus)
+        #lda_factory.visualize_model(lda_factory.corpus)
 
         # checks for visualization output file
-        if (os.path.isfile('./output.html')):
-            return lda_factory.get_output_json()
-        # if visualization fails, return top topics
-        return lda_factory.get_topics()
+        # if (os.path.isfile('./output.html')):
+        #     return lda_factory.get_output_json()
+        # # if visualization fails, return top topics
+        # return lda_factory.get_topics()
+        response = jsonify(lda_factory.get_topics())
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     # if the results are errors in json format
     return results
 
@@ -93,12 +99,15 @@ def get_tweets_single():
     if type(results) is list:
         # run lda on results from sql
         proceesed_corpus = lda_factory.train_lda(results)
-        lda_factory.visualize_model(lda_factory.corpus)
+        #json_response = lda_factory.get_topics()
+        # lda_factory.visualize_model(lda_factory.corpus)
 
-        if (os.path.isfile('./output.html')):
-            return lda_factory.get_output_json()
+        # if (os.path.isfile('./output.html')):
+        #     return lda_factory.get_output_json()
 
-        return proceesed_corpus
+        response = jsonify(lda_factory.get_topics())
+        response.headers.add('Access-Control-Allow-Origin', '*')
+        return response
     # if the results are errors in json format
     return results
 
