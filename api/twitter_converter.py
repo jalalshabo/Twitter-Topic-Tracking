@@ -53,7 +53,7 @@ class TweetFactory:
         data = self.db.run_query(query)
         return data
 
-    def tweets_by_user(self, user_id, start_date, end_date):
+    def tweets_by_user(self, user_name, start_date, end_date):
         """
         Retrieves a specific users tweets within a date range
         on success: json of a users tweets in date range from db
@@ -69,11 +69,11 @@ class TweetFactory:
             return {"error": "invalid date range"}
 
         #validate userId
-        if (not user_id.isdigit()):
-            return {"error": "invalid userId"}
+        if (type(user_name) != str):
+            return {"error": "invalid user name"}
 
         # retrieve tweets for user in the date range
-        query = f'SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'{start_date} 00:00:00\' and \'{end_date} 23:59:59\' and userId={user_id}'
+        query = f'SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'{start_date} 00:00:00\' and \'{end_date} 23:59:59\' and userName=\'{user_name}\''
         data = self.db.run_query(query)
         return data
 

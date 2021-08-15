@@ -53,8 +53,8 @@ def get_tweets_location():
 @app.route('/api/tweets/user', methods=['GET'])
 def get_tweets_user():
     # check if user_id, start_date and end_date arguments are provided in url
-    if 'user_id' not in request.args:
-        return {"error": "missing user_id argument"}
+    if 'user_name' not in request.args:
+        return {"error": "missing user_name argument"}
     
     if 'start_date' not in request.args:
         return {"error": "missing start_date argument"}
@@ -63,11 +63,10 @@ def get_tweets_user():
         return {"error": "missing end_date argument"}
     
     # retrieve tweets for user
-    user_id = request.args['user_id']
+    user_name = request.args['user_name']
     start_date = request.args['start_date']
     end_date = request.args['end_date']
-    results = tweet_factory.tweets_by_user(user_id, start_date, end_date)
-
+    results = tweet_factory.tweets_by_user(user_name, start_date, end_date)
     # retrieve results on sql success
     if type(results) is list:
         # run lda on results from sql
