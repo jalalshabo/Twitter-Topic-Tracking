@@ -235,7 +235,7 @@ class Lda:
             }
         """
         # retrieve top 10 words for each topic
-        topics = self.trained_model.show_topics(num_topics=self.num_topics, num_words=10, formatted=False)
+        topics = self.trained_model.show_topics(num_topics=self.num_topics, num_words=30, formatted=False)
         # format each topic into json objects
         topics_json_formatted = {}
         for topic in topics:
