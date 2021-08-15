@@ -10,12 +10,10 @@ import './InputSection.css';
 
 function InputSection() {
 
-    const {ResultDiv} = useContext(globalContext);
-    const {ResultScript} = useContext(globalContext);
-    const {ResultLink} = useContext(globalContext);
-    const {setResultDiv} = useContext(globalContext);
-    const {setResultScript} = useContext(globalContext);
-    const {setResultLink} = useContext(globalContext);
+    const {Result} = useContext(globalContext);
+
+    const {setResult} = useContext(globalContext);
+ 
 
     const {globalState} = useContext(globalContext);
     const {secondPage} = useContext(globalContext);
@@ -113,27 +111,67 @@ function InputSection() {
             alert ("Choose a valid date!");
         }
     } 
+    const styles = useSpring({
+        loop: true,
+        from: { rotateZ: 0 },
+        to: { rotateZ: 180 },
+      })
+  
     
     useEffect(() => {
             if (isInitialMount.current) { 
                 isInitialMount.current = false;
             }
             else {
-                fetch('/api/tweets/date_range?start_date=' + buttonMessage1 + '&end_date=' + buttonMessage2).then(response => response.json()).then( data => {
-                    console.log(data);
-                    if (Submit) { 
-                        setResultDiv(data.divElement);
-                        setResultLink(data.linkElement);
-                        setResultScript(data.scriptElement);
-                        console.log(ResultDiv);
-                        console.log(ResultLink);
-                        console.log(ResultScript);
-                        setSubMessage('');
-                        setMainMessage("Topic Tracking Results: ");
-                        setglobalState(2);
-                    }
-                    
-                });
+                if (chosenOption === "Overall") {
+                    fetch('/api/tweets/date_range?start_date=' + buttonMessage1 + '&end_date=' + buttonMessage2).then(response => response.json()).then( data => {
+                        console.log(data);
+                        if (Submit) { 
+                            setResult(data);
+                            console.log(Result);
+                            setSubMessage('');
+                            setMainMessage("Topic Tracking Results: ");
+                            setglobalState(2);
+                        }
+                        
+                    }).catch((error) => {
+                        alert("Could not retrieve the requested data!");
+                        window.location.reload(true);
+                    });
+                }
+                else if (chosenOption === "Location") {
+                    fetch('/api/tweets/location?city='+ InputFieldValue + '&start_date=' + buttonMessage1 + '&end_date=' + buttonMessage2).then(response => response.json()).then( data => {
+                        console.log(data);
+                        if (Submit) { 
+                            setResult(data);
+                            console.log(Result);
+                            setSubMessage('');
+                            setMainMessage("Topic Tracking Results (" + InputFieldValue + "): ");
+                            setglobalState(2);
+                        }
+                        
+                    }).catch((error) => {
+                        alert("Could not retrieve the requested data!");
+                        window.location.reload(true);
+                    });
+                }
+                else {
+                    fetch('/api/tweets/user?user_id='+ InputFieldValue + '&start_date=' + buttonMessage1 + '&end_date=' + buttonMessage2).then(response => response.json()).then( data => {
+                        console.log(data);
+                        if (Submit) { 
+                            setResult(data);
+                            console.log(Result);
+                            setSubMessage('');
+                            setMainMessage("Topic Tracking Results (" + InputFieldValue + "): ");
+                            setglobalState(2);
+                        }
+                        
+                    }).catch((error) => {
+                        alert("Could not retrieve the requested data!");
+                        window.location.reload(true);
+                    });
+                }
+               
             }
     },[Submit]);
 
@@ -146,7 +184,27 @@ function InputSection() {
                 { (globalState === 1) && <DropdownSection />} 
      
             </inputContext.Provider>
-           
+           {Submit &&
+            <>
+                <div className="modal"> 
+                    <animated.div
+                    style={{
+                        
+                        
+                        width: 80,
+                        height: 80,
+                        backgroundColor: '#deebf3',
+                        borderRadius: 16,
+                        margin: 20,
+                        ...styles,
+                    }}
+                    />
+                    <h2> Retrieving Data...</h2>
+                </div>
+                
+               
+            </>
+           }
             <animated.button style = {useSpring({to:{opacity:(globalState === 1)?0.5: 0,marginTop:(globalState === 1)?700: 0, backgroundColor: "#555555", color:"#fff"}, from:{opacity:0,},})} className="button" id="submitbutton" 
                     onClick = { async () => {
                     if (Date1Selected && Date2Selected) {
@@ -158,16 +216,11 @@ function InputSection() {
                             },
                             body: JSON.stringify(inputdata)
                         })
-                    
+                        
                         if (response.ok) {
-                            console.log("Request was successful");
-                    
-                            setSubmit(true);
-
-                            
+                            setSubmit(true);            
                         }
-                    
-                        console.log(Submit);
+
                     }
                     else {
                         alert ("You must enter a date range first!");

@@ -15,7 +15,7 @@ function DropdownSection(props) {
         to:{opacity:(globalState === 1)?0.7: 0,marginTop:(globalState === 1)?200: 0, backgroundColor: "#D5D5D5"},
         from:{opacity:0,},
     })
-
+    
     const [open, setOpen] = useState(false);
     const [InputField, setInputField] = useState(false);
  
@@ -36,7 +36,7 @@ function DropdownSection(props) {
         }
 
         return (
-            <div className="dropdown" >
+            <div className="dropdown">
                 <DropdownItem >Overall</DropdownItem>
                 <DropdownItem >Location</DropdownItem>
                 <DropdownItem >User</DropdownItem>
@@ -60,12 +60,13 @@ function DropdownSection(props) {
                      {chosenOption} {open? <i class="fas fa-caret-up"></i> : <i class="fas fa-caret-down"></i>}
             </animated.div>
 
-            {InputField && 
+            {(InputField && !open) && 
             
             <>
             <input className = "inputfield" onChange = {event => setInputFieldValue(event.target.value)} /> 
-          
-            </>}
+            <p>{(chosenOption === "Location")? "e.g. Windsor, ON" : ""}</p>
+            </>
+            }
             {open && <Dropdown />}
         </>
     )

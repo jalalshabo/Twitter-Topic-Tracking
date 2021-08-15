@@ -8,6 +8,18 @@
     font-size:24px;
     z-index:1;
 }
+
+.modal { 
+    position:absolute;
+    width:100vw;
+    height:100vh;
+    background-color: rgba(0,0,0,0.5); 
+    z-index:2;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
   
 #button1 { 
     z-index:2;
