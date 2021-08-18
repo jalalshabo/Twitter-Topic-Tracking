@@ -56,7 +56,7 @@ class Lda:
         self.id2word = None                             # mapping from {integer} to word {string}
         self.workers = 4                                # number of extra processes to use for parallel execution
         self.chunksize = 3000                           # how many documents are processed at a time
-        self.passes=10                                  # how often we train the model on the entire corpus
+        self.passes=50                                  # how often we train the model on the entire corpus
         self.batch=True                                 # default value
         self.alpha='symmetric'                          # hyperparameter that affects sparcity of the document-topic (theta) and topic-word (lambda) distributions
         self.eta=None                                   # default value
@@ -116,7 +116,7 @@ class Lda:
         # remove stop words
         custom_stopwords = ['amp', '&amp', '\\c200c', 'u200c', '\\c200d', 'u200d','lol', 'able', 'abst', 'accordance', 'according', 'accodringly', 'act', 'actually',
         'added', 'aint', 'adj', 'affected', 'affecting', 'affects', 'ah', 'all', 'almost', 'announce', 'anybody', 'anymore', 'apparently', 'approximately',
-        'arent', 'arise', 'aside', 'ask', 'asking', 'at', 'available', 'away','awful', 'came', 'couldnt', 'cant', 'cause', 'causes', 'certain', 'certainly',
+        'arent', 'arise', 'aside', 'ask', 'asking', 'as' ,'at', 'available', 'away','awful', 'came', 'couldnt', 'cant', 'cause', 'causes', 'certain', 'certainly',
         'co', 'com', 'come', 'comes', 'contain', 'containing', 'contains', 'different', 'dont', 'didnt','downwards', 'ed', 'edu', 'effect', 'end', 'ending', 'especially',
         'et', 'etc', 'everybody', 'ex', 'except', 'far', 'ff', 'fifth', 'fix','followed', 'following', 'follows', 'forth', 'found', 'futhermore',
         'gave', 'gets', 'getting', 'given', 'gives', 'giving', 'goes', 'gone', 'gt', 'got', 'gotten', 'hadnt', 'happens', 'hardly', 'hence', 'id', 'ie', 'ill', 'indeed',
@@ -180,8 +180,8 @@ class Lda:
 
         #Create a dictionary representation of the documents
         self.dictionary = Corpora.Dictionary(corpus)
-        # filter out words that occur in less than 1 document or more than 70% of the corpus
-        #self.dictionary.filter_extremes(no_below=2, no_above=0.7)
+        # filter out words that occur in less than 1 document or more than 80% of the corpus
+        self.dictionary.filter_extremes(no_below=1, no_above=0.8)
         # # create a bag-of-words representation of the corpus
         self.corpus = [ self.dictionary.doc2bow(document) for document in corpus]
         ### training the LDA model
