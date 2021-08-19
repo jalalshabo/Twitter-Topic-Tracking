@@ -56,14 +56,14 @@ class Lda:
         self.id2word = None                             # mapping from {integer} to word {string}
         self.workers = 4                                # number of extra processes to use for parallel execution
         self.chunksize = 3000                           # how many documents are processed at a time
-        self.passes=50                                  # how often we train the model on the entire corpus
+        self.passes=20                                  # how often we train the model on the entire corpus
         self.batch=True                                 # default value
         self.alpha='symmetric'                          # hyperparameter that affects sparcity of the document-topic (theta) and topic-word (lambda) distributions
         self.eta=None                                   # default value
         self.decay=0.5                                  # default value
         self.offset=1.0                                 # default value
         self.eval_every=None                               # Calculate and log perplexity , None speeds up the algorithm
-        self.iterations=400                             # how often we repeat a loop for each document
+        self.iterations=200                             # how often we repeat a loop for each document
         self.gamma_threshold=0.001                      # default value
         self.random_state=100                           # default value
         pass
