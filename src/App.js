@@ -18,9 +18,8 @@ function App() {
   /* Variable section that contains all the states that need to be tracked */
   const [globalState, setglobalState] = useState(0);
 
-  const [ResultDiv, setResultDiv] = useState('');
-  const [ResultLink, setResultLink] = useState('');
-  const [ResultScript, setResultScript] = useState('');
+  const [Result, setResult] = useState('');
+
   /* This is a very roundabout way of deleting a button, not efficient at all */
   const [buttonMessage1,setButtonMessage1] = useState("Let's begin");
 
@@ -61,7 +60,7 @@ function App() {
   /* The render section */
   return (
     <div className= "App" style={{backgroundColor: bgColor, color: Color}}>
-      <globalContext.Provider value = {{globalState, setglobalState, secondPage, buttonMessage1, setButtonMessage1, ResultDiv, setResultDiv, ResultLink, setResultLink, ResultScript, setResultScript}}>
+      <globalContext.Provider value = {{globalState, setglobalState, secondPage, buttonMessage1, setButtonMessage1, Result, setResult}}>
         <messageContext.Provider value = {{TitleMessage, SubMessage,setSubMessage, setMainMessage}}>
         {/*Pure background elements*/}
 
