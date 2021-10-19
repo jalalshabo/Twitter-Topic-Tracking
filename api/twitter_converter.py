@@ -97,7 +97,7 @@ class TweetFactory:
         #     return {"error": "invalid city entry"}
         print(f'City: {city}')
         # retrieve tweets for user in the date range
-        query = f'SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'{start_date} 00:00:00\' and \'{end_date} 23:59:59\' and tweetCity=\'{city}\''
+        query = f'SELECT tweetText FROM tweets_table WHERE tweetDate BETWEEN \'{start_date} 00:00:00\' and \'{end_date} 23:59:59\' and userLocation=\'{city}\''
         data = self.db.run_query(query)
         return data
 
