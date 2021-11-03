@@ -156,7 +156,7 @@ function InputSection() {
                     });
                 }
                 else {
-                    fetch('/api/tweets/user?user_id='+ InputFieldValue + '&start_date=' + buttonMessage1 + '&end_date=' + buttonMessage2).then(response => response.json()).then( data => {
+                    fetch('/api/tweets/user?user_name='+ InputFieldValue + '&start_date=' + buttonMessage1 + '&end_date=' + buttonMessage2).then(response => response.json()).then( data => {
                         console.log(data);
                         if (Submit) { 
                             setResult(data);
