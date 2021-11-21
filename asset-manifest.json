@@ -1,20 +1,20 @@
 {
   "files": {
     "main.css": "/Twitter-Topic-Tracking/static/css/main.03e78ab0.chunk.css",
-    "main.js": "/Twitter-Topic-Tracking/static/js/main.17c9fc6a.chunk.js",
-    "main.js.map": "/Twitter-Topic-Tracking/static/js/main.17c9fc6a.chunk.js.map",
-    "runtime-main.js": "/Twitter-Topic-Tracking/static/js/runtime-main.fee77e79.js",
-    "runtime-main.js.map": "/Twitter-Topic-Tracking/static/js/runtime-main.fee77e79.js.map",
-    "static/js/2.ecfc2e5b.chunk.js": "/Twitter-Topic-Tracking/static/js/2.ecfc2e5b.chunk.js",
-    "static/js/2.ecfc2e5b.chunk.js.map": "/Twitter-Topic-Tracking/static/js/2.ecfc2e5b.chunk.js.map",
+    "main.js": "/Twitter-Topic-Tracking/static/js/main.bc8b6039.chunk.js",
+    "main.js.map": "/Twitter-Topic-Tracking/static/js/main.bc8b6039.chunk.js.map",
+    "runtime-main.js": "/Twitter-Topic-Tracking/static/js/runtime-main.505c8007.js",
+    "runtime-main.js.map": "/Twitter-Topic-Tracking/static/js/runtime-main.505c8007.js.map",
+    "static/js/2.6ca03c47.chunk.js": "/Twitter-Topic-Tracking/static/js/2.6ca03c47.chunk.js",
+    "static/js/2.6ca03c47.chunk.js.map": "/Twitter-Topic-Tracking/static/js/2.6ca03c47.chunk.js.map",
     "index.html": "/Twitter-Topic-Tracking/index.html",
     "static/css/main.03e78ab0.chunk.css.map": "/Twitter-Topic-Tracking/static/css/main.03e78ab0.chunk.css.map",
-    "static/js/2.ecfc2e5b.chunk.js.LICENSE.txt": "/Twitter-Topic-Tracking/static/js/2.ecfc2e5b.chunk.js.LICENSE.txt"
+    "static/js/2.6ca03c47.chunk.js.LICENSE.txt": "/Twitter-Topic-Tracking/static/js/2.6ca03c47.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.fee77e79.js",
-    "static/js/2.ecfc2e5b.chunk.js",
+    "static/js/runtime-main.505c8007.js",
+    "static/js/2.6ca03c47.chunk.js",
     "static/css/main.03e78ab0.chunk.css",
-    "static/js/main.17c9fc6a.chunk.js"
+    "static/js/main.bc8b6039.chunk.js"
   ]
 }
